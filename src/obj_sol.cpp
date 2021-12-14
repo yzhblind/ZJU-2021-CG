@@ -1,5 +1,9 @@
 #include "obj_sol.h"
 
+//Debug
+//int FL;
+
+
 using namespace std;
 
 vector<double> get_number(string s)
@@ -57,6 +61,8 @@ void Group:: set_name(string s)
 }
 
 
+
+
 void Group:: set(vector<string>G)
 {
 	//cerr<<G.size()<<endl;
@@ -108,8 +114,11 @@ void Group:: set(vector<string>G)
 		if(s.size() >= 2 && s[0]=='f' && s[1]==' '){
 			string t = s.substr(2,s.size()-2);
 			t += ' ';
+			
+		//	if(!FL){cerr<<t<<endl;}
+			
 
-			//cerr<<t<<endl;
+			
 
 			Face _f;
 			while(t.size()){
@@ -120,16 +129,29 @@ void Group:: set(vector<string>G)
 					//cerr<<"Face format error !" <<endl;
 					break;
 				}
-				H1 = get_number(t.substr(0,pos)); 
+
+				
+
+				H1 = get_number(t.substr(0,pos));
+
+
+			//	if(!FL){cerr<<t.substr(0,pos)<<'*'<<H1[0]<<endl;}
+
+
 				if(H1.empty()) H1.push_back(0);
 				t = t.substr(pos+1,t.size()-pos-1);
-
+				
+				
 				pos = t.find('/',0);
+				
+				
+				
 				if(pos < 0) {
 					cerr<<"Face format error !" <<endl;
 					goto Face_break;
 				}
 				H2 = get_number(t.substr(0,pos)); 
+				//if(!FL){cerr<<t.substr(0,pos)<<'*'<<H2[0]<<endl;}
 				if(H2.empty()) H2.push_back(0);
 				t = t.substr(pos+1,t.size()-pos-1);
 
@@ -147,8 +169,10 @@ void Group:: set(vector<string>G)
 				if(H3.empty()) H3.push_back(0);
 				t = t.substr(pos+1,t.size()-pos-1);
 			//	cerr<<"***"<<H3[0]<<endl;
-				_f.Points.push_back(Int_3((int)(H1[0]+0.1),(int)(H2[0]+0.1),(int)(H3[0]+0.1)));
+				_f.Points.push_back(Int_3(floor(H1[0]+0.1),floor(H2[0]+0.1),floor(H3[0]+0.1)));
 			}	
+
+			//FL=1;
 
 			f.push_back(_f);
 			Face_break: continue;
@@ -211,7 +235,7 @@ void OBJ:: Out_to_File(string s)
 			for(auto v: u.Points){
 				if(v.x)fprintf(fp,"%d",v.x);
 				fprintf(fp,"/");
-				if(v.y)fprintf(fp,"%d",v.x);
+				if(v.y)fprintf(fp,"%d",v.y);
 				fprintf(fp,"/");
 				if(v.z)fprintf(fp,"%d",v.z);
 				fprintf(fp," ");
@@ -229,7 +253,7 @@ int main()
 {
     cerr<<"Testing !"<<endl;
     OBJ a;
-    a.Get_from_File("1.obj");
+    a.Get_from_File("Turret_Top_OBJ.obj");
 	a.Out_to_File("2.obj");
 //    cout<<a.All_Group[0].v[1].z<<endl;
 }
