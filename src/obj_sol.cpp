@@ -1,4 +1,7 @@
 #include "obj_sol.h"
+
+using namespace std;
+
 vector<double> get_number(string s)
 {
 	while(s.size() && s[0]==' ')s=s.substr(1,s.size()-1);
@@ -191,7 +194,7 @@ void OBJ:: Out_to_File(string s)
 	FILE *fp = fopen(s.c_str(), "w");
 	
 	for(auto G : All_Group){
-		if(G.name!=NAME0){
+		if(G.name!=Group_NAME0){
 			fprintf(fp,"g %s\n",(G.name).c_str());
 		}
 		for(int u = 1; u < G.v.size(); ++u){
@@ -220,13 +223,14 @@ void OBJ:: Out_to_File(string s)
 	fclose(fp); 
 }
 
-
-// //test
-// int main()
-// {
-//     cerr<<"Testing !"<<endl;
-//     OBJ a;
-//     a.Get_from_File("1.obj");
-// 	a.Out_to_File("2.obj");
-// //    cout<<a.All_Group[0].v[1].z<<endl;
-// }
+/*
+//test
+int main()
+{
+    cerr<<"Testing !"<<endl;
+    OBJ a;
+    a.Get_from_File("1.obj");
+	a.Out_to_File("2.obj");
+//    cout<<a.All_Group[0].v[1].z<<endl;
+}
+*/
