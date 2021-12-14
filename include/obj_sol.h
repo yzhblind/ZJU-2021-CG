@@ -2,12 +2,11 @@
 
 #define __Obj_Sol__
 
-
-#define  NAME0 "____DEFAULT_CYBBB______"
-
-#include<bits/stdc++.h>
-using namespace std;
-
+#define  Group_NAME0 "____DEFAULT_CYBBB______"
+#include<cstdio>
+#include<vector>
+#include<string>
+#include<iostream>
 
 
 
@@ -37,11 +36,11 @@ public:
 
 class Face {
 public:
-	vector<Int_3>Points;
+	std::vector<Int_3>Points;
 	Face() {}
 };
 
-vector<double> get_number(string s);
+std::vector<double> get_number(std::string s);
 
 //g     分组：  g  name  
 //v     顶点坐标 第四个参数可选, 默认1.0
@@ -55,20 +54,20 @@ vector<double> get_number(string s);
 */
 class Group {
 public:
-	string name;
-	vector<Point>v;
-	vector<pair<double,double>>vt;
-	vector<Normal>vn;
-	vector<Face>f;
+	std::string name;
+	std::vector<Point>v;
+	std::vector<std::pair<double,double>>vt;
+	std::vector<Normal>vn;
+	std::vector<Face>f;
 
 Group() {
 	v.push_back(Point());
-	vt.push_back(make_pair(0,0));
+	vt.push_back(std::make_pair(0,0));
 	vn.push_back(Normal());
 }
 
-void set_name(string s);
-void set(vector<string>G);
+void set_name(std::string s);
+void set(std::vector<std::string>G);
 
 };
 
@@ -76,14 +75,14 @@ class OBJ {
 	
 public:
 
-vector <Group> All_Group;
+std::vector <Group> All_Group;
 
 OBJ(){
 	All_Group.resize(1);
-	All_Group[0].set_name(NAME0);
+	All_Group[0].set_name(Group_NAME0);
 }
-void Get_from_File(string s);
-void Out_to_File(string s);
+void Get_from_File(std::string s);
+void Out_to_File(std::string s);
 	
 	
 };
