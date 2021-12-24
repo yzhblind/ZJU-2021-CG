@@ -1,5 +1,7 @@
 #include <mesh.h>
 
+#include <iostream>
+
 using namespace glm;
 using namespace std;
 
@@ -52,16 +54,24 @@ void Mesh::setTexture(ShaderProgram &prgm)
         switch (textures[i].type)
         {
         case DIFFUSE_T:
-            name = "diffuse_texture" + to_string(diffuseCnt++);
+            // name = "diffuse_texture" + to_string(diffuseCnt++);
+            name = "diffuse_texture";
+            diffuseCnt++;
             break;
         case SPECULAR_T:
-            name = "specular_texture" + to_string(specularCnt++);
+            // name = "specular_texture" + to_string(specularCnt++);
+            name = "specular_texture";
+            specularCnt++;
             break;
         case NORMAL_T:
-            name = "normal_texture" + to_string(normalCnt++);
+            // name = "normal_texture" + to_string(normalCnt++);
+            name = "normal_texture";
+            normalCnt++;
             break;
         case HEIGHT_T:
-            name = "height_texture" + to_string(heightCnt++);
+            // name = "height_texture" + to_string(heightCnt++);
+            name = "height_texture";
+            heightCnt++;
             break;
         }
         prgm.setInt(name, i);

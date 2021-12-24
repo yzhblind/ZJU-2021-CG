@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
 
 project(tower-defense)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 20)
 
 include_directories(./include ./external/include)
 aux_source_directory(./src SRCS)
