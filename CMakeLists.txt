@@ -9,4 +9,4 @@ aux_source_directory(./src SRCS)
 aux_source_directory(./external/src EXT_SRCS)
 
 add_executable(${PROJECT_NAME} ${EXT_SRCS} ${SRCS})
-target_link_libraries(${PROJECT_NAME} -lGLEW -lglfw -lGL -ldl)
+target_link_libraries(${PROJECT_NAME} -lGLEW -lglfw -lGL -ldl -lassimp)

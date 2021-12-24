@@ -9,9 +9,6 @@
 #include <vector>
 #include <iostream>
 
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
-
 enum TextureType
 {
     DIFFUSE_T,

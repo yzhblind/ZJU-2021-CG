@@ -15,9 +15,6 @@
 #include <vector>
 #include <iostream>
 
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
-
 class Model
 {
 public:
@@ -34,7 +31,7 @@ public:
     }
 
 private:
-    void loadModel(string const &path);
+    void loadModel(const std::string  &path);
     void loadMeshes(const aiScene *scene);
     void loadMesh(aiMesh *mesh, Mesh &myMesh, aiMaterial *material);
     void loadTexFromMat(aiMaterial *mat, Mesh &myMesh, aiTextureType type, TextureType myType);
