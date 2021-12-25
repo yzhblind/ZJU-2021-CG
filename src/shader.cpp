@@ -85,7 +85,7 @@ void ShaderProgram::checkError()
 
 ShaderProgram getShaderProgram(const std::string &vertexPath, const std::string &fragmentPath)
 {
-    Shader vertexShader(vertexPath, GL_FRAGMENT_SHADER);
+    Shader vertexShader(vertexPath, GL_VERTEX_SHADER);
     Shader fragmentShader(fragmentPath, GL_FRAGMENT_SHADER);
     ShaderProgram prgm(vertexShader, fragmentShader);
     vertexShader.clear(), fragmentShader.clear();
@@ -93,7 +93,7 @@ ShaderProgram getShaderProgram(const std::string &vertexPath, const std::string 
 }
 ShaderProgram getShaderProgram(const std::string &vertexPath, const std::string &fragmentPath, const std::string &geometryPath)
 {
-    Shader vertexShader(vertexPath, GL_FRAGMENT_SHADER);
+    Shader vertexShader(vertexPath, GL_VERTEX_SHADER);
     Shader fragmentShader(fragmentPath, GL_FRAGMENT_SHADER);
     Shader geometryShader(geometryPath, GL_GEOMETRY_SHADER);
     ShaderProgram prgm(vertexShader, fragmentShader, geometryShader);
