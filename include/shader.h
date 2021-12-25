@@ -11,11 +11,11 @@ public:
     GLuint getID() const { return ID; }
     GLuint getType() const { return type; }
     void clear() { glDeleteShader(ID); }
-    Shader(const std::string &filePath, GLuint type);
+    Shader(const std::string &filePath, GLenum type);
 
 private:
     GLuint ID;
-    GLuint type;
+    GLenum type;
     void checkError();
 };
 
@@ -36,6 +36,7 @@ public:
     void setMat2(const std::string &name, const glm::mat2 &mat) const { glUniformMatrix2fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, &mat[0][0]); }
     void setMat3(const std::string &name, const glm::mat3 &mat) const { glUniformMatrix3fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, &mat[0][0]); }
     void setMat4(const std::string &name, const glm::mat4 &mat) const { glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, &mat[0][0]); }
+    ShaderProgram() { ID = 0; }
     ShaderProgram(const Shader &vertexShader, const Shader &fragmentShader);
     ShaderProgram(const Shader &vertexShader, const Shader &fragmentShader, const Shader &geometryShader);
 
@@ -43,3 +44,6 @@ private:
     GLuint ID;
     void checkError();
 };
+
+ShaderProgram getShaderProgram(const std::string &vertexPath, const std::string &fragmentPath);
+ShaderProgram getShaderProgram(const std::string &vertexPath, const std::string &fragmentPath, const std::string &geometryPath);

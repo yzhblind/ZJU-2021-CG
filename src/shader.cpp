@@ -1,4 +1,4 @@
-#include "shader.h"
+#include <shader.h>
 
 #include <fstream>
 #include <iostream>
@@ -25,7 +25,7 @@ std::string type2str(GLuint ID)
     }
 }
 
-Shader::Shader(const std::string &filePath, unsigned int type) : type(type)
+Shader::Shader(const std::string &filePath, GLenum type) : type(type)
 {
     std::ifstream shaderFile(filePath);
     std::string code{std::istreambuf_iterator<char>{shaderFile}, {}};
@@ -81,4 +81,22 @@ void ShaderProgram::checkError()
         std::cerr << infoLog << std::endl;
         throw std::exception();
     }
+}
+
+ShaderProgram getShaderProgram(const std::string &vertexPath, const std::string &fragmentPath)
+{
+    Shader vertexShader(vertexPath, GL_FRAGMENT_SHADER);
+    Shader fragmentShader(fragmentPath, GL_FRAGMENT_SHADER);
+    ShaderProgram prgm(vertexShader, fragmentShader);
+    vertexShader.clear(), fragmentShader.clear();
+    return prgm;
+}
+ShaderProgram getShaderProgram(const std::string &vertexPath, const std::string &fragmentPath, const std::string &geometryPath)
+{
+    Shader vertexShader(vertexPath, GL_FRAGMENT_SHADER);
+    Shader fragmentShader(fragmentPath, GL_FRAGMENT_SHADER);
+    Shader geometryShader(geometryPath, GL_GEOMETRY_SHADER);
+    ShaderProgram prgm(vertexShader, fragmentShader, geometryShader);
+    vertexShader.clear(), fragmentShader.clear(), geometryShader.clear();
+    return prgm;
 }
