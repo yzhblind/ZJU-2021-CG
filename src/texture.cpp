@@ -1,8 +1,5 @@
 #include <texture.h>
 
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
-
 using namespace std;
 
 unsigned int loadTexFromFile(const string name, const string &dir)

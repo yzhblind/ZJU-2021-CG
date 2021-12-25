@@ -4,6 +4,8 @@
 
 #include <glm/glm.hpp>
 
+#include <stb_image.h>
+
 #include <map>
 #include <string>
 #include <vector>
