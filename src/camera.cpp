@@ -6,7 +6,7 @@ using namespace glm;
 using namespace std;
 
 const vec3 initUp = vec3(0.0f, 1.0f, 0.0f);
-const float initSpeed = 2.0f;
+const float initSpeed = 5.0f;
 const float initSensitivity = 0.05f;
 const float initZoom = 45.0f;
 

@@ -9,6 +9,7 @@
 #include <myUtils.h>
 #include <camera.h>
 #include <skybox.h>
+#include <model.h>
 
 class Game
 {
@@ -16,6 +17,14 @@ public:
     void init();
     void logic();
     void render();
+    void processKeyMove(bool w, bool a, bool s, bool d);
+    void processMouseMove(double xoffset, double yoffset);
+    void switchCamera() { cameraState ^= 1; };
+    void setScrSize(int width, int height)
+    {
+        scrWidth = width, scrHeight = height;
+        glViewport(0, 0, width, height);
+    }
     void setTime(float t)
     {
         deltaTime = t - currentTime;
@@ -23,12 +32,20 @@ public:
     }
 
 private:
-    // 判定自由视角与塔防视角切换
-    float scrWidth, scrHeight;
-    int cameraState;
-    Camera cam[2];
+    MatrixStack modelStack;
+
     float currentTime;
     float deltaTime;
+
+    float scrWidth, scrHeight;
+    int cameraState; // 判定自由视角与塔防视角切换
+    Camera cam[2];
+
+    Model *turret;
+    ShaderProgram normalShader;
+
+    void initTurret();
+    void drawTurret(const glm::mat4 &projection, const glm::mat4 &view);
 
     Skybox sky;
     ShaderProgram skyShader;

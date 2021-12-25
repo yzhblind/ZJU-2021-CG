@@ -1,29 +1,28 @@
 #include <model.h>
 
-#include <assimp/Importer.hpp>
-#include <assimp/postprocess.h>
-
 using namespace glm;
 using namespace std;
 
-const aiScene *assimpLoad(const string &path)
+void Model::loadModel(const string &path)
 {
+    cout << "[MODEL INFO] " << path << endl;
+
     Assimp::Importer importer;
 
     importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS, aiComponent_COLORS | aiComponent_BONEWEIGHTS |
                                                             aiComponent_ANIMATIONS | aiComponent_LIGHTS | aiComponent_CAMERAS);
 
-    return importer.ReadFile(path,
-                             aiProcess_CalcTangentSpace | aiProcess_JoinIdenticalVertices |
-                                 aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_PreTransformVertices |
-                                 aiProcess_ImproveCacheLocality | aiProcess_RemoveRedundantMaterials |
-                                 aiProcess_FixInfacingNormals | aiProcess_GenUVCoords | aiProcess_TransformUVCoords |
-                                 aiProcess_OptimizeMeshes | aiProcess_OptimizeGraph | aiProcess_FlipUVs | aiProcess_RemoveComponent);
-}
+    importer.SetPropertyBool(AI_CONFIG_PP_PTV_NORMALIZE, true);
 
-void Model::loadModel(const string &path)
-{
-    const aiScene *scene = assimpLoad(path);
+    const aiScene *scene = importer.ReadFile(path,
+                                             aiProcess_CalcTangentSpace | aiProcess_JoinIdenticalVertices | aiProcess_OptimizeMeshes |
+                                                 aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_PreTransformVertices |
+                                                 aiProcess_ImproveCacheLocality | aiProcess_RemoveRedundantMaterials |
+                                                 aiProcess_FixInfacingNormals | aiProcess_GenUVCoords | aiProcess_TransformUVCoords |
+                                                 aiProcess_FlipUVs | aiProcess_RemoveComponent);
+
+    if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
+        cout << "ERROR::ASSIMP:: " << importer.GetErrorString() << endl;
 
     dir = path.substr(0, path.find_last_of('/'));
 
@@ -32,11 +31,22 @@ void Model::loadModel(const string &path)
 
 void Model::loadMeshes(const aiScene *scene)
 {
+    cout << "[MODEL INFO] start to load " << scene->mNumMeshes << " meshes" << endl;
     for (unsigned int i = 0; i < scene->mNumMeshes; ++i)
     {
         meshes.emplace_back();
         loadMesh(scene->mMeshes[i], meshes.back(), scene->mMaterials[scene->mMeshes[i]->mMaterialIndex]);
+        meshes.back().init();
     }
+    // for (unsigned int i = 0; i < node->mNumMeshes; i++)
+    // {
+    //     meshes.emplace_back();
+    //     aiMesh *aimesh = scene->mMeshes[node->mMeshes[i]];
+    //     loadMesh(aimesh, meshes.back(), scene->mMaterials[aimesh->mMaterialIndex]);
+    //     meshes.back().init();
+    // }
+    // for (unsigned int i = 0; i < node->mNumChildren; i++)
+    //     loadMeshes(node->mChildren[i], scene);
 }
 
 void Model::loadMesh(aiMesh *mesh, Mesh &myMesh, aiMaterial *material)
@@ -65,10 +75,10 @@ void Model::loadMesh(aiMesh *mesh, Mesh &myMesh, aiMaterial *material)
         }
         myMesh.push_back(t);
     }
-    
+
     for (unsigned int i = 0; i < mesh->mNumFaces; ++i)
     {
-        aiFace face = mesh->mFaces[i];
+        aiFace &face = mesh->mFaces[i];
         for (unsigned int j = 0; j < face.mNumIndices; ++j)
             myMesh.push_back(face.mIndices[j]);
     }
@@ -81,8 +91,12 @@ void Model::loadMesh(aiMesh *mesh, Mesh &myMesh, aiMaterial *material)
 
 void Model::loadTexFromMat(aiMaterial *mat, Mesh &myMesh, aiTextureType type, TextureType myType)
 {
+    cout << "[MODEL INFO] type:<" << myType << "> texture number: " << mat->GetTextureCount(type) << endl;
     for (unsigned int i = 0; i < mat->GetTextureCount(type); ++i)
     {
+        // aiTextureMapMode map_mode;
+        // mat->Get(AI_MATKEY_MAPPINGMODE_U(type, i), map_mode);
+        // mat->Get(AI_MATKEY_MAPPINGMODE_V(type, i), map_mode);
         aiString str;
         mat->GetTexture(type, i, &str);
         string name = string(str.C_Str());

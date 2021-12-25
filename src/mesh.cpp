@@ -35,6 +35,9 @@ void Mesh::setAttribute()
 
 void Mesh::init()
 {
+    cout << "vertex array size: " << vertices.size() << endl;
+    cout << "index array size: " << indices.size() << endl;
+    cout << "texture array size: " << textures.size() << endl;
     createObject();
     sendData();
     setAttribute();

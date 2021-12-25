@@ -28,4 +28,4 @@ struct Texture
     Texture(unsigned int id, TextureType type, const std::string &name) : id(id), type(type), name(name) {}
 };
 
-unsigned int loadTexFromFile(const std::string name, const std::string &dir);
+unsigned int loadTexFromFile(const std::string &name, const std::string &dir);

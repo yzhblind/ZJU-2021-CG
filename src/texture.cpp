@@ -2,7 +2,7 @@
 
 using namespace std;
 
-unsigned int loadTexFromFile(const string name, const string &dir)
+unsigned int loadTexFromFile(const string &name, const string &dir)
 {
     string path = dir + "/" + name;
 

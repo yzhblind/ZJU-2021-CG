@@ -10,6 +10,12 @@ const unsigned int SCR_WIDTH = 1920;
 const unsigned int SCR_HEIGHT = 1080;
 
 void processInput(GLFWwindow *window);
+void frame_size_callback(GLFWwindow *window, int width, int height);
+void mouse_callback(GLFWwindow *window, double xpos, double ypos);
+void scroll_callback(GLFWwindow *window, double xoffset, double yoffset);
+void mouse_button_callback(GLFWwindow *window, int button, int action, int mods);
+void cursor_enter_callback(GLFWwindow *window, int entered);
+void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods);
 
 int main()
 {
@@ -19,6 +25,12 @@ int main()
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     GLFWwindow *window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "TowerDefense", NULL, NULL);
     glfwMakeContextCurrent(window);
+    glfwSetFramebufferSizeCallback(window, frame_size_callback);
+    glfwSetCursorEnterCallback(window, cursor_enter_callback);
+    glfwSetCursorPosCallback(window, mouse_callback);
+    glfwSetScrollCallback(window, scroll_callback);
+    glfwSetMouseButtonCallback(window, mouse_button_callback);
+    glfwSetKeyCallback(window, key_callback);
     gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
     myGame.init();
     while (!glfwWindowShouldClose(window))
@@ -34,6 +46,63 @@ int main()
     return 0;
 }
 
+bool cursorEnabled = true;
+bool mouseInWindow = false;
+double lastX, lastY;
+
+inline bool keyPressed(GLFWwindow *window, int key)
+{
+    return glfwGetKey(window, key) == GLFW_PRESS;
+}
+
 void processInput(GLFWwindow *window)
 {
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, true);
+    myGame.processKeyMove(
+        keyPressed(window, GLFW_KEY_W),
+        keyPressed(window, GLFW_KEY_A),
+        keyPressed(window, GLFW_KEY_S),
+        keyPressed(window, GLFW_KEY_D));
+}
+void frame_size_callback(GLFWwindow *window, int width, int height)
+{
+    myGame.setScrSize(width, height);
+}
+void mouse_callback(GLFWwindow *window, double xpos, double ypos)
+{
+    if (mouseInWindow)
+    {
+        myGame.processMouseMove(xpos - lastX, lastY - ypos);
+        lastX = xpos, lastY = ypos;
+    }
+}
+void scroll_callback(GLFWwindow *window, double xoffset, double yoffset)
+{
+}
+void mouse_button_callback(GLFWwindow *window, int button, int action, int mods)
+{
+}
+void cursor_enter_callback(GLFWwindow *window, int entered)
+{
+    if (entered)
+    {
+        mouseInWindow = true;
+        glfwGetCursorPos(window, &lastX, &lastY);
+    }
+    else
+    {
+        mouseInWindow = false;
+    }
+}
+void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
+{
+    if (key == GLFW_KEY_G && action == GLFW_PRESS)
+    {
+        if (cursorEnabled)
+            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+        else
+            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+        cursorEnabled = !cursorEnabled;
+    }
 }
