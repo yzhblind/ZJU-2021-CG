@@ -37,6 +37,7 @@ int main()
     {
         myGame.setTime(glfwGetTime());
         processInput(window);
+        if(!myGame.getState())
         myGame.logic();
         myGame.render();
         glfwSwapBuffers(window);
@@ -64,6 +65,11 @@ void processInput(GLFWwindow *window)
         keyPressed(window, GLFW_KEY_A),
         keyPressed(window, GLFW_KEY_S),
         keyPressed(window, GLFW_KEY_D));
+    myGame.processLight(
+        keyPressed(window,GLFW_KEY_I),
+        keyPressed(window, GLFW_KEY_J),
+        keyPressed(window, GLFW_KEY_K),
+        keyPressed(window, GLFW_KEY_L));
 }
 void frame_size_callback(GLFWwindow *window, int width, int height)
 {
@@ -79,6 +85,7 @@ void mouse_callback(GLFWwindow *window, double xpos, double ypos)
 }
 void scroll_callback(GLFWwindow *window, double xoffset, double yoffset)
 {
+    myGame.zoomInOutCamera(yoffset);
 }
 void mouse_button_callback(GLFWwindow *window, int button, int action, int mods)
 {
@@ -104,5 +111,18 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
         else
             glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
         cursorEnabled = !cursorEnabled;
+    }
+    if (key == GLFW_KEY_V && action == GLFW_PRESS)
+    {
+        glm::vec3 cameraPos=myGame.getCameraPos(), cameraFront=myGame.getCameraFront();
+        printf("Camera at (%.3lf,%.3lf,%.3lf)\n front (%.3lf, %.3lf,%.3lf)", cameraPos.x, cameraPos.y, cameraPos.z, cameraFront.x, cameraFront.y, cameraFront.z);
+    }
+    if (key == GLFW_KEY_Z && action == GLFW_PRESS)
+    {
+        myGame.switchCamera();
+    }
+    if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
+    {
+        myGame.switchState();
     }
 }

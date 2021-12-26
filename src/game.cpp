@@ -1,5 +1,5 @@
 #include <game.h>
-
+#include<basic.h>
 using namespace glm;
 using namespace std;
 
@@ -89,9 +89,30 @@ void Game::processKeyMove(bool w, bool a, bool s, bool d)
         cam[cameraState].move(cameraState == 0 ? RIGHT : LEVEL_RIGHT, deltaTime);
 }
 
+void Game::processLight(bool i, bool j, bool k, bool l)
+{
+    if (i && !k)
+    {
+        light0.direction.x += 0.1;
+    }
+    else if (!i && k)
+    {
+        light0.direction.x -= 0.1;
+    }
+    if (j && !l)
+    {
+        light0.direction.z += 0.1;
+    }
+    else if (!j && l)
+    {
+        light0.direction.z -= 0.1;
+    }
+
+}
 void Game::processMouseMove(double xoffset, double yoffset)
 {
     cam[cameraState].rotate(xoffset, yoffset);
+
 }
 
 void Game::initModel()
