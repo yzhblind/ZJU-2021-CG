@@ -1,4 +1,5 @@
 #include<basic.h>
+#include<algorithm>
 Cube::Cube(GLfloat len, glm::vec3 trans) {
 	Vertex p[24];
 	p[0].pos = glm::vec3(0, 0, 0)+trans;p[0].normal = glm::vec3(-1, 0, 0);
@@ -44,13 +45,13 @@ Sphere::Sphere(GLfloat r, int a, int b, glm::vec3 trans)
 		{
 			Vertex p1, p2, p3, p4;
 			double alpha = pi / a * i, theta = 2.0 * pi / b * j;
-			p1.pos = glm::vec3(r * cos(alpha) * cos(theta), r * cos(alpha) * sin(theta), r * sin(alpha)) + trans;
+			p1.pos = glm::vec3(r * cos(alpha) * cos(theta), r * sin(alpha), r * cos(alpha) * sin(theta)) + trans;
 			alpha = pi / a * i, theta = 2.0 * pi / b * (j + 1);
-			p2.pos = glm::vec3(r * cos(alpha) * cos(theta), r * cos(alpha) * sin(theta), r * sin(alpha)) + trans;
+			p2.pos = glm::vec3(r * cos(alpha) * cos(theta),r * sin(alpha), r * cos(alpha) * sin(theta) ) + trans;
 			alpha = pi / a * (i + 1), theta = 2.0 * pi / b * (j + 1);
-			p3.pos = glm::vec3(r * cos(alpha) * cos(theta), r * cos(alpha) * sin(theta), r * sin(alpha)) + trans;
+			p3.pos = glm::vec3(r * cos(alpha) * cos(theta), r * sin(alpha), r * cos(alpha) * sin(theta)) + trans;
 			alpha = pi / a * (i + 1), theta = 2.0 * pi / b * j;
-			p4.pos = glm::vec3(r * cos(alpha) * cos(theta), r * cos(alpha) * sin(theta), r * sin(alpha)) + trans;
+			p4.pos = glm::vec3(r * cos(alpha) * cos(theta), r * sin(alpha), r * cos(alpha) * sin(theta)) + trans;
 			glm::vec3 normal = (p3.pos - p2.pos) * (p1.pos - p2.pos);
 			p1.normal = p2.normal = p3.normal = p4.normal = normal;
 			push_back(p1);push_back(p2);push_back(p3);push_back(p4);
@@ -108,8 +109,14 @@ Prism::Prism(GLfloat r, GLfloat h, GLint num, glm::vec3 trans)
 		for (int i = 0;i < 6;i++)
 			tmp_index.push_back(a[i] + offset);
 	}
+	
 	int n = v.size();
-	for (int i = 0;i < n;i++) push_back(v[i]);
+	for (int i = 0;i < n;i++)
+	{
+		std::swap(v[i].pos.y, v[i].pos.z);
+		std::swap(v[i].normal.y, v[i].normal.z);
+		push_back(v[i]);
+	}
 	n = tmp_index.size();
 	for (int i = 0;i < n;i++) push_back(tmp_index[i]);
 	this->r = r;this->h = h;
@@ -151,7 +158,12 @@ Cone::Cone(GLfloat r, GLfloat h, int num, glm::vec3 trans)
 		tmp_index.push_back(offset + 2);
 	}
 	int n = v.size();
-	for (int i = 0;i < n;i++) push_back(v[i]);
+	for (int i = 0;i < n;i++)
+	{
+		std::swap(v[i].pos.y, v[i].pos.z);
+		std::swap(v[i].normal.y, v[i].normal.z);
+		push_back(v[i]);
+	}
 	n = tmp_index.size();
 	for (int i = 0;i < n;i++) push_back(tmp_index[i]);
 	init();
@@ -178,7 +190,7 @@ Frustum::Frustum(GLfloat rh, GLfloat rl, GLfloat h, int num, glm::vec3 trans)
 	{
 		Vertex p;
 		p.normal = glm::vec3(0, 0, 1);
-		p.pos = glm::vec3(rh * cos(2.0 * pi / num * i), rh * sin(2.0 * pi / num * i), h) + trans;
+		p.pos = glm::vec3(rh * cos(2.0 * pi / num * i), rh * sin(2.0 * pi / num * i), -h) + trans;
 		v.push_back(p);
 	}
 	for (int i = 1;i <= num - 2;i++)
@@ -193,8 +205,8 @@ Frustum::Frustum(GLfloat rh, GLfloat rl, GLfloat h, int num, glm::vec3 trans)
 		Vertex p1, p2, p3, p4;
 		p1.pos = glm::vec3(rl * cos(2.0 * pi / num * i), rl * sin(2.0 * pi / num * i), 0) + trans;
 		p2.pos = glm::vec3(rl * cos(2.0 * pi / num * (i + 1)), rl * sin(2.0 * pi / num * (i + 1)), 0) + trans;
-		p3.pos = glm::vec3(rh * cos(2.0 * pi / num * (i + 1)), rh * sin(2.0 * pi / num * (i + 1)), h) + trans;
-		p4.pos = glm::vec3(rh * cos(2.0 * pi / num * i), rh * sin(2.0 * pi / num * i), h) + trans;
+		p3.pos = glm::vec3(rh * cos(2.0 * pi / num * (i + 1)), rh * sin(2.0 * pi / num * (i + 1)), -h) + trans;
+		p4.pos = glm::vec3(rh * cos(2.0 * pi / num * i), rh * sin(2.0 * pi / num * i), -h) + trans;
 		glm::vec3 normal = (p3.pos - p2.pos) * (p1.pos - p2.pos);
 		p1.normal = p2.normal = p3.normal = p4.normal = normal;
 		int offset = v.size();
@@ -204,7 +216,12 @@ Frustum::Frustum(GLfloat rh, GLfloat rl, GLfloat h, int num, glm::vec3 trans)
 			tmp_index.push_back(a[i] + offset);
 	}
 	int n = v.size();
-	for (int i = 0;i < n;i++) push_back(v[i]);
+	for (int i = 0;i < n;i++) 
+	{
+		std::swap(v[i].pos.y, v[i].pos.z);
+		std::swap(v[i].normal.y, v[i].normal.z);
+		push_back(v[i]);
+	}
 	n = tmp_index.size();
 	for (int i = 0;i < n;i++) push_back(tmp_index[i]);
 	this->rh = rh;this->rl = rl; this->h = h;
