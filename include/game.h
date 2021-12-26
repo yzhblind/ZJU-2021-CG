@@ -63,11 +63,15 @@ private:
     dirLight light0;
     pointLight light1;
 
+    void drawScene(const glm::mat4 &projection, const glm::mat4 &view);
+
     Model *turret;
+    Model *box;
+    Model *virus;
     ShaderProgram normalShader;
 
-    void initTurret();
-    void drawTurret(const glm::mat4 &projection, const glm::mat4 &view);
+    void initModel();
+    void drawModel(const glm::mat4 &projection, const glm::mat4 &view, Model* m);
 
     Skybox sky;
     ShaderProgram skyShader;

@@ -37,8 +37,8 @@ uniform bool en_normal;
 uniform sampler2D diffuse_texture;
 uniform sampler2D specular_texture;
 uniform sampler2D normal_texture;
-uniform vec3 diffuse_material = vec3(1.0);
-uniform vec3 specular_material = vec3(1.0);
+uniform vec3 diffuse_material = vec3(0.5);
+uniform vec3 specular_material = vec3(0.1);
 
 uniform float shininess = 32.0;
 

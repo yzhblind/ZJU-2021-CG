@@ -13,7 +13,7 @@ void Game::init()
     light0.ambient = vec3(0.15f);
     light0.diffuse = vec3(1.0f);
     light0.specular = vec3(1.0f);
-    initTurret();
+    initModel();
     initSky();
 }
 
@@ -21,15 +21,56 @@ void Game::logic()
 {
 }
 
+void Game::drawScene(const glm::mat4 &projection, const glm::mat4 &view)
+{
+    modelStack.push();
+    // modelStack.translate(vec3(-0.3f, -0.1f, 0.0f));
+    modelStack.push();
+    for (int i = 0; i < 10; ++i)
+    {
+        for (int j = 0; j < 20; ++j)
+        {
+            modelStack.push();
+            modelStack.translate(vec3((float)i * 4, 0.0f, (float)j * 4));
+            drawModel(projection, view, turret);
+            modelStack.pop();
+        }
+    }
+    modelStack.pop();
+    modelStack.pop();
+    for (int i = 10; i < 20; ++i)
+    {
+        for (int j = 0; j < 20; ++j)
+        {
+            modelStack.push();
+            modelStack.translate(vec3((float)i * 4, 0.0f, (float)j * 4));
+            drawModel(projection, view, virus);
+            modelStack.pop();
+        }
+    }
+    modelStack.push();
+    modelStack.scale(vec3(2.0f));
+    modelStack.translate(vec3(0.0f, -3.0f, 0.0f));
+    for (int i = 0; i < 20; ++i)
+    {
+        for (int j = 0; j < 20; ++j)
+        {
+            modelStack.push();
+            modelStack.translate(vec3((float)i * 4, 0.0f, (float)j * 4));
+            drawModel(projection, view, box);
+            modelStack.pop();
+        }
+    }
+    modelStack.pop();
+}
+
 void Game::render()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     mat4 view = cam[cameraState].getViewMatrix();
-    mat4 projection = perspective(radians(cam[cameraState].zoom), scrWidth / scrHeight, 0.1f, 100.0f);
-    // modelStack.push();
-    // modelStack.scale(vec3(0.01f));
-    drawTurret(projection, view);
-    // modelStack.pop();
+    mat4 projection = perspective(radians(cam[cameraState].zoom), scrWidth / scrHeight, 0.1f, 200.0f);
+
+    drawScene(projection, view);
 
     updateSky(projection, view);
     drawSky();
@@ -74,14 +115,16 @@ void Game::processMouseMove(double xoffset, double yoffset)
 
 }
 
-void Game::initTurret()
+void Game::initModel()
 {
     normalShader = getShaderProgram("../glsl/normal.vs", "../glsl/normal.fs");
     turret = new Model("../resources/models/turret1/turret.obj");
+    box = new Model("../resources/models/woodbox/Wooden Crate.obj");
+    virus = new Model("../resources/models/virusLow/virus.obj");
     // turret = new Model("../resources/models/test/nanosuit.obj");
 }
 
-void Game::drawTurret(const glm::mat4 &projection, const glm::mat4 &view)
+void Game::drawModel(const glm::mat4 &projection, const glm::mat4 &view, Model *m)
 {
     normalShader.use();
     normalShader.setMat4("projection", projection);
@@ -91,10 +134,7 @@ void Game::drawTurret(const glm::mat4 &projection, const glm::mat4 &view)
     useLight(normalShader, light0);
     normalShader.setBool("en_light1", false);
     normalShader.setVec3("viewPos", cam[cameraState].pos);
-    //Frustum c(6,3,4,6,glm::vec3(10,10,10));
-    //c.draw(normalShader);
-
-    turret->draw(normalShader);
+    m->draw(normalShader);
 }
 
 void Game::initSky()
