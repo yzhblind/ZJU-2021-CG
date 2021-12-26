@@ -14,19 +14,25 @@ void MatrixStack::reset()
 void MatrixStack::rotate(float angle, vec3 axis)
 {
     mat4 &t = modelStack.back();
-    t = glm::rotate(t, radians(angle), axis);
+    mat4 T(1.0f);
+    T = glm::rotate(T, radians(angle), axis);
+    t = T * t;
     normalStack.back() = calcNormal(t);
 }
 void MatrixStack::scale(vec3 factor)
 {
     mat4 &t = modelStack.back();
-    t = glm::scale(t, factor);
+    mat4 T(1.0f);
+    T = glm::scale(T, factor);
+    t = T * t;
     normalStack.back() = calcNormal(t);
 }
 void MatrixStack::translate(glm::vec3 direction)
 {
     mat4 &t = modelStack.back();
-    t = glm::translate(t, direction);
+    mat4 T(1.0f);
+    T = glm::translate(T, direction);
+    t = T * t;
     normalStack.back() = calcNormal(t);
 }
 void MatrixStack::mul(const mat4 &trans)
