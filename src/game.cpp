@@ -1,10 +1,11 @@
 #include <game.h>
-#include<basic.h>
+#include <basic.h>
 using namespace glm;
 using namespace std;
 
 void Game::init()
 {
+    glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
     scrWidth = 1920, scrHeight = 1080;
     currentTime = deltaTime = 0.0f;
@@ -107,12 +108,10 @@ void Game::processLight(bool i, bool j, bool k, bool l)
     {
         light0.direction.z -= 0.1;
     }
-
 }
 void Game::processMouseMove(double xoffset, double yoffset)
 {
     cam[cameraState].rotate(xoffset, yoffset);
-
 }
 
 void Game::initModel()

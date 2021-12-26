@@ -110,6 +110,7 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
             glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
         else
             glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+        glfwGetCursorPos(window, &lastX, &lastY);
         cursorEnabled = !cursorEnabled;
     }
     if (key == GLFW_KEY_V && action == GLFW_PRESS)
