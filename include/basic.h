@@ -5,7 +5,7 @@
 class Cube : public Mesh
 {
 public:
-	Cube(GLfloat len);
+	Cube(GLfloat len, glm::vec3 );
 private:
 	GLfloat length;
 };
@@ -21,7 +21,7 @@ class Prism :public Mesh
 {
 public:
 	//ÀâÖù£¬r:°ë¾¶£¬h:¸ß¶È£¬num:ÀâÊı
-	Prism(GLfloat r, GLfloat h, GLint num=100);
+	Prism(GLfloat r, GLfloat h, GLint num);
 private:
 	GLfloat r, h;
 	GLint num;
@@ -29,7 +29,7 @@ private:
 class Cylinder :public Prism
 {
 public:
-	Cylinder(GLfloat r, GLfloat h);
+	Cylinder(GLfloat r, GLfloat h) :Prism(r, h, 100) {};
 };
 class Cone : public Mesh
 {
