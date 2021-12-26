@@ -9,6 +9,10 @@ void Game::init()
     scrWidth = 1920, scrHeight = 1080;
     currentTime = deltaTime = 0.0f;
     cameraState = 0;
+    light0.direction = vec3(1.0f, -1.0f, 1.0f);
+    light0.ambient = vec3(0.15f);
+    light0.diffuse = vec3(1.0f);
+    light0.specular = vec3(1.0f);
     initTurret();
     initSky();
 }
@@ -64,7 +68,8 @@ void Game::drawTurret(const glm::mat4 &projection, const glm::mat4 &view)
     normalShader.setMat4("view", view);
     normalShader.setMat4("model", modelStack.getModelMatrix());
     normalShader.setMat3("normalMatrix", modelStack.getNormalMatrix());
-    normalShader.setVec3("lightPos", vec3(1.0f, 0.5f, 2.0f));
+    useLight(normalShader, light0);
+    normalShader.setBool("en_light1", false);
     normalShader.setVec3("viewPos", cam[cameraState].pos);
     Frustum c(6,3,4,6);
     c.draw(normalShader);

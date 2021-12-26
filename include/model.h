@@ -21,15 +21,16 @@ class Model
 {
 public:
     std::map<std::string, Texture> texTable;
-    std::vector<Mesh> meshes;
+    std::vector<Mesh*> meshes;
     std::string dir;
 
+    Model(std::vector<Mesh*> &ctx) { texTable.clear(), meshes.assign(ctx.begin(), ctx.end()); }
     Model(const std::string &path) { loadModel(path); }
 
     void draw(ShaderProgram &prgm)
     {
         for (unsigned int i = 0; i < meshes.size(); ++i)
-            meshes[i].draw(prgm);
+            meshes[i]->draw(prgm);
     }
 
 private:
