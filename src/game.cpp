@@ -1,5 +1,5 @@
 #include <game.h>
-
+#include<basic.h>
 using namespace glm;
 using namespace std;
 
@@ -47,6 +47,7 @@ void Game::processKeyMove(bool w, bool a, bool s, bool d)
 void Game::processMouseMove(double xoffset, double yoffset)
 {
     cam[cameraState].rotate(xoffset, yoffset);
+
 }
 
 void Game::initTurret()
@@ -65,7 +66,10 @@ void Game::drawTurret(const glm::mat4 &projection, const glm::mat4 &view)
     normalShader.setMat3("normalMatrix", modelStack.getNormalMatrix());
     normalShader.setVec3("lightPos", vec3(1.0f, 0.5f, 2.0f));
     normalShader.setVec3("viewPos", cam[cameraState].pos);
-    turret->draw(normalShader);
+    Frustum c(6,3,4,6);
+    c.draw(normalShader);
+
+    //turret->draw(normalShader);
 }
 
 void Game::initSky()

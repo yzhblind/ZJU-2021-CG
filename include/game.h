@@ -20,6 +20,18 @@ public:
     void processKeyMove(bool w, bool a, bool s, bool d);
     void processMouseMove(double xoffset, double yoffset);
     void switchCamera() { cameraState ^= 1; };
+    void zoomInOutCamera(double yoffset)
+    {
+        cam[cameraState].zoomInOut(yoffset);
+    }
+    glm::vec3 getCameraFront()
+    {
+        return cam[cameraState].front;
+    }
+    glm::vec3 getCameraPos()
+    {
+        return cam[cameraState].pos;
+    }
     void setScrSize(int width, int height)
     {
         scrWidth = width, scrHeight = height;
