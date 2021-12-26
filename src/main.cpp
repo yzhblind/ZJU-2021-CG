@@ -64,6 +64,11 @@ void processInput(GLFWwindow *window)
         keyPressed(window, GLFW_KEY_A),
         keyPressed(window, GLFW_KEY_S),
         keyPressed(window, GLFW_KEY_D));
+    myGame.processLight(
+        keyPressed(window,GLFW_KEY_I),
+        keyPressed(window, GLFW_KEY_J),
+        keyPressed(window, GLFW_KEY_K),
+        keyPressed(window, GLFW_KEY_L));
 }
 void frame_size_callback(GLFWwindow *window, int width, int height)
 {

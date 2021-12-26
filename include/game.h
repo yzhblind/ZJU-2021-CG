@@ -20,6 +20,7 @@ public:
     void render();
     void processKeyMove(bool w, bool a, bool s, bool d);
     void processMouseMove(double xoffset, double yoffset);
+    void processLight(bool i, bool j, bool k, bool l);
     void switchCamera() { cameraState ^= 1; };
     void zoomInOutCamera(double yoffset)
     {

@@ -48,6 +48,26 @@ void Game::processKeyMove(bool w, bool a, bool s, bool d)
         cam[cameraState].move(cameraState == 0 ? RIGHT : LEVEL_RIGHT, deltaTime);
 }
 
+void Game::processLight(bool i, bool j, bool k, bool l)
+{
+    if (i && !k)
+    {
+        light0.direction.x += 0.1;
+    }
+    else if (!i && k)
+    {
+        light0.direction.x -= 0.1;
+    }
+    if (j && !l)
+    {
+        light0.direction.z += 0.1;
+    }
+    else if (!j && l)
+    {
+        light0.direction.z -= 0.1;
+    }
+
+}
 void Game::processMouseMove(double xoffset, double yoffset)
 {
     cam[cameraState].rotate(xoffset, yoffset);
@@ -71,10 +91,10 @@ void Game::drawTurret(const glm::mat4 &projection, const glm::mat4 &view)
     useLight(normalShader, light0);
     normalShader.setBool("en_light1", false);
     normalShader.setVec3("viewPos", cam[cameraState].pos);
-    Frustum c(6,3,4,6);
-    c.draw(normalShader);
+    //Frustum c(6,3,4,6,glm::vec3(10,10,10));
+    //c.draw(normalShader);
 
-    //turret->draw(normalShader);
+    turret->draw(normalShader);
 }
 
 void Game::initSky()
