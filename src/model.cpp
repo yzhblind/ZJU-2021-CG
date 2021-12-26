@@ -34,9 +34,9 @@ void Model::loadMeshes(const aiScene *scene)
     cout << "[MODEL INFO] start to load " << scene->mNumMeshes << " meshes" << endl;
     for (unsigned int i = 0; i < scene->mNumMeshes; ++i)
     {
-        meshes.emplace_back();
-        loadMesh(scene->mMeshes[i], meshes.back(), scene->mMaterials[scene->mMeshes[i]->mMaterialIndex]);
-        meshes.back().init();
+        meshes.push_back(new Mesh());
+        loadMesh(scene->mMeshes[i], *(meshes.back()), scene->mMaterials[scene->mMeshes[i]->mMaterialIndex]);
+        meshes.back()->init();
     }
     // for (unsigned int i = 0; i < node->mNumMeshes; i++)
     // {
@@ -96,7 +96,9 @@ void Model::loadTexFromMat(aiMaterial *mat, Mesh &myMesh, aiTextureType type, Te
     {
         // aiTextureMapMode map_mode;
         // mat->Get(AI_MATKEY_MAPPINGMODE_U(type, i), map_mode);
+        // cout << map_mode <<endl;
         // mat->Get(AI_MATKEY_MAPPINGMODE_V(type, i), map_mode);
+        // cout << map_mode <<endl;
         aiString str;
         mat->GetTexture(type, i, &str);
         string name = string(str.C_Str());

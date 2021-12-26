@@ -80,6 +80,9 @@ void Mesh::setTexture(ShaderProgram &prgm)
         prgm.setInt(name, i);
         glBindTexture(GL_TEXTURE_2D, textures[i].id);
     }
+    prgm.setBool("en_diffuse", diffuseCnt > 0);
+    prgm.setBool("en_specular", specularCnt > 0);
+    prgm.setBool("en_normal", normalCnt > 0);
 }
 void Mesh::drawCall()
 {

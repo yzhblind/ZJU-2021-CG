@@ -10,6 +10,7 @@
 #include <camera.h>
 #include <skybox.h>
 #include <model.h>
+#include <light.h>
 
 class Game
 {
@@ -40,6 +41,9 @@ private:
     float scrWidth, scrHeight;
     int cameraState; // 判定自由视角与塔防视角切换
     Camera cam[2];
+
+    dirLight light0;
+    pointLight light1;
 
     Model *turret;
     ShaderProgram normalShader;
