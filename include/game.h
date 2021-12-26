@@ -26,6 +26,7 @@ public:
     {
         cam[cameraState].zoomInOut(yoffset);
     }
+    void switchState(){ state ^= 1; }
     glm::vec3 getCameraFront()
     {
         return cam[cameraState].front;
@@ -43,6 +44,10 @@ public:
     {
         deltaTime = t - currentTime;
         currentTime = t;
+    }
+    bool getState()
+    {
+        return state;
     }
 
 private:
@@ -70,4 +75,6 @@ private:
     void initSky();
     void updateSky(const glm::mat4 &projection, const glm::mat4 &view);
     void drawSky();
+
+    bool state;
 };

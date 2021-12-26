@@ -37,6 +37,7 @@ int main()
     {
         myGame.setTime(glfwGetTime());
         processInput(window);
+        if(!myGame.getState())
         myGame.logic();
         myGame.render();
         glfwSwapBuffers(window);
@@ -115,6 +116,13 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
     {
         glm::vec3 cameraPos=myGame.getCameraPos(), cameraFront=myGame.getCameraFront();
         printf("Camera at (%.3lf,%.3lf,%.3lf)\n front (%.3lf, %.3lf,%.3lf)", cameraPos.x, cameraPos.y, cameraPos.z, cameraFront.x, cameraFront.y, cameraFront.z);
-
+    }
+    if (key == GLFW_KEY_Z && action == GLFW_PRESS)
+    {
+        myGame.switchCamera();
+    }
+    if (key == GLFW_KEY_SPACE && action == GLFW_PRESS)
+    {
+        myGame.switchState();
     }
 }
