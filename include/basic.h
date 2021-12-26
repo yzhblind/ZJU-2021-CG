@@ -5,7 +5,7 @@
 class Cube : public Mesh
 {
 public:
-	Cube(GLfloat len, glm::vec3 );
+	Cube(GLfloat len);
 private:
 	GLfloat length;
 };
