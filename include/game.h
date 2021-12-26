@@ -60,10 +60,20 @@ private:
     int cameraState; // 判定自由视角与塔防视角切换
     Camera cam[2];
 
+    void initShadow();
+    void shadowGen(const glm::mat4 &projection, const glm::mat4 &view);
+
+    unsigned int shadowWidth, shadowHeight;
+    unsigned int shadowFBO;
+    unsigned int shadowMap;
+    ShaderProgram shadowShader;
+
+    void initLight();
+
     dirLight light0;
     pointLight light1;
 
-    void drawScene(const glm::mat4 &projection, const glm::mat4 &view);
+    void drawScene(const glm::mat4 &projection, const glm::mat4 &view, ShaderProgram &prgm);
 
     Model *turret;
     Model *box;
@@ -71,7 +81,7 @@ private:
     ShaderProgram normalShader;
 
     void initModel();
-    void drawModel(const glm::mat4 &projection, const glm::mat4 &view, Model* m);
+    void drawModel(const glm::mat4 &projection, const glm::mat4 &view, Model* m, ShaderProgram &prgm);
 
     Skybox sky;
     ShaderProgram skyShader;

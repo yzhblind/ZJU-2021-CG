@@ -11,6 +11,7 @@ out VF {
   vec3 TangentLightPos1;
   vec3 TangentViewPos;
   vec3 TangentFragPos;
+  vec4 FragPosLightSpace;
 }
 vs_out;
 
@@ -18,6 +19,7 @@ uniform mat4 projection;
 uniform mat4 view;
 uniform mat4 model;
 uniform mat3 normalMatrix;
+uniform mat4 lightSpaceMatrix;
 
 uniform vec3 light0_dir = vec3(0);
 uniform vec3 light1_pos = vec3(0);
@@ -41,6 +43,7 @@ void main() {
   vs_out.TangentLightPos1 = TBN * light1_pos;
   vs_out.TangentViewPos = TBN * viewPos;
   vs_out.TangentFragPos = TBN * fragPos;
+  vs_out.FragPosLightSpace = lightSpaceMatrix * vec4(fragPos, 1.0);
 
   gl_Position = projection * view * model * vec4(aPos, 1.0);
 }
