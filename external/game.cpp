@@ -130,6 +130,12 @@ void Game::logic()
     _M.find_init();
     for(int i=1;i<=_M.cnt_Enemy; ++i)if(_M._E[i].health > eps){
         pair<double,double> res = _M.find(_M._E[i].x,_M._E[i].y,deltaTime);
+
+        if(res.first < -0.5) {
+            new_M.new_Enemy(_M._E[i].x,_M._E[i].y,_M._E[i].health);
+            continue;
+        }
+
         new_M.new_Enemy(res.first,res.second,_M._E[i].health);
         if(sqrt((res.first-_M._E[i].x)*(res.first-_M._E[i].x)
             +(res.second-_M._E[i].y)*(res.second-_M._E[i].y))>= deltaTime -eps) {
