@@ -54,7 +54,7 @@ void Game::logic()
 void Game::drawScene(const glm::mat4 &projection, const glm::mat4 &view, ShaderProgram &prgm)
 {
     modelStack.push();
-    // modelStack.translate(vec3(-0.3f, -0.1f, 0.0f));
+    modelStack.translate(vec3(-0.3f, -0.3f, 0.0f));
     modelStack.push();
     for (int i = 0; i < 10; i+=2)
     {
@@ -96,9 +96,11 @@ void Game::drawScene(const glm::mat4 &projection, const glm::mat4 &view, ShaderP
 // projection & view is not in use here
 void Game::shadowGen(const glm::mat4 &projection, const glm::mat4 &view)
 {
-    mat4 lightProjection = ortho(-100.0f, 100.0f, -100.0f, 100.0f, 0.1f, 150.0f);
-    vec3 lightPos = vec3(60.0f, 0.0f, 60.0f) - 64.0f * normalize(light0.direction);
-    mat4 lightView = lookAt(lightPos, vec3(60.0f, 0.0f, 60.0f), vec3(0.0f, 1.0f, 0.0f));
+    // Camera &c = cam[cameraState];
+    // vec3 viewCenter = c.pos;
+    mat4 lightProjection = ortho(-20.0f, 20.0f, -20.0f, 20.0f, 0.1f, 80.0f);
+    vec3 lightPos = vec3(40.0f, 0.0f, 40.0f) - 32.0f * normalize(light0.direction);
+    mat4 lightView = lookAt(lightPos, vec3(40.0f, 0.0f, 40.0f), vec3(0.0f, 1.0f, 0.0f));
     mat4 lightSpaceMatrix = lightProjection * lightView;
     shadowShader.use();
     shadowShader.setMat4("lightSpaceMatrix", lightSpaceMatrix);
@@ -113,9 +115,9 @@ void Game::shadowGen(const glm::mat4 &projection, const glm::mat4 &view)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     normalShader.use();
     normalShader.setMat4("lightSpaceMatrix", lightSpaceMatrix);
-    glActiveTexture(GL_TEXTURE5);
+    glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, shadowMap);
-    normalShader.setInt("shadowMap", 5);
+    normalShader.setInt("shadowMap", 0);
 }
 
 void Game::render()

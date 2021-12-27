@@ -53,7 +53,7 @@ void Mesh::setTexture(ShaderProgram &prgm)
     string name;
     for (unsigned int i = 0; i < textures.size(); ++i)
     {
-        glActiveTexture(GL_TEXTURE0 + i);
+        glActiveTexture(GL_TEXTURE0 + i + 1);
         switch (textures[i].type)
         {
         case DIFFUSE_T:
@@ -77,7 +77,7 @@ void Mesh::setTexture(ShaderProgram &prgm)
             heightCnt++;
             break;
         }
-        prgm.setInt(name, i);
+        prgm.setInt(name, i + 1);
         glBindTexture(GL_TEXTURE_2D, textures[i].id);
     }
     prgm.setBool("en_diffuse", diffuseCnt > 0);

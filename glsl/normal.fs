@@ -43,7 +43,7 @@ uniform sampler2D normal_texture;
 uniform vec3 diffuse_material = vec3(0.5);
 uniform vec3 specular_material = vec3(0.1);
 
-uniform float shininess = 32.0;
+uniform float shininess = 64.0;
 
 float ShadowCalculation(vec4 fragPosLightSpace, vec3 normal, vec3 lightDir) {
   // perform perspective divide

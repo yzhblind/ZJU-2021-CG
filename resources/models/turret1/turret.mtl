@@ -8,4 +8,4 @@ Ks 1.00000 1.00000 1.00000
 Ke 0.00000e+0 0.00000e+0 0.00000e+0
 map_Kd turret_Albedo.tga
 map_Ks turret_Roughness.tga
-map_bump turret_Normal.
+map_bump turret_Normal.tga
