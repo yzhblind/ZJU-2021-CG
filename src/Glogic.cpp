@@ -2,9 +2,9 @@
 #include <cstring>
 #include <cmath>
 using namespace std;
+int X[MAP_SIZE * 4 * SPLIT * MAP_SIZE * 4 * SPLIT + 10], Y[MAP_SIZE * 4 * SPLIT * MAP_SIZE * 4 * SPLIT + 10];
 
-
-int _MAP::new_Enemy(double x, double y, double counter = MAX_EnemyHealth)
+int _MAP::new_Enemy(double x, double y, double counter)
 {
     ++cnt_Enemy;
     _E[cnt_Enemy].x = x;
@@ -16,7 +16,8 @@ int _MAP::new_Enemy(double x, double y, double counter = MAX_EnemyHealth)
 
 void _MAP::find_init()
 {
-    memset(a,0,sizeof a);
+    for (int i = 0;i < MAP_SIZE * 4 * SPLIT + 10;i++)
+        for (int j = 0;j < MAP_SIZE * 4 * SPLIT + 10;j++)a[i][j] = 0;
 
     for(int i=0; i<MAP_SIZE; ++i)
     for(int j=0; j<MAP_SIZE; ++j) {
@@ -34,7 +35,8 @@ void _MAP::find_init()
 //// When a[Home] is 1
     for(int i=0;i<MAP_SIZE*4*SPLIT;++i)
     for(int j=0;j<MAP_SIZE*4*SPLIT;++j) di[i][j]=9999;
-    int X[MAP_SIZE*4*SPLIT*MAP_SIZE*4*SPLIT+10],Y[MAP_SIZE*4*SPLIT*MAP_SIZE*4*SPLIT+10],qn;
+    
+    int qn;
     X[qn = 1] = (Home_x*4+1.5)*SPLIT;
     Y[1] = (Home_y*4+1.5)*SPLIT;
     di[X[1]][Y[1]] = 0;
@@ -119,7 +121,7 @@ pair<double,double> _MAP::find(double x,double y, double deltaTime)
     int X = x*4*SPLIT+eps;
     int Y = y*4*SPLIT+eps;
 
-    if(sqrt((x-Home_x)*(x-Home_x) + (y-Home_y)*(y-Home_y)) <= sqrt(2)) return make_pair(Home_x,Home_y);
+    if(sqrt((x- (Home_x + 0.5))*(x- (Home_x + 0.5)) + (y- (Home_y + 0.5))*(y-(Home_y+0.5))) <= sqrt(2)) return make_pair(Home_x,Home_y);
     if(a[X][Y])return make_pair(x,y);
 
     if(di[X][Y] < 999){
@@ -250,11 +252,20 @@ UPD _MAP::upd()
     for(int j=0;j<MAP_SIZE;++j) ret.ty[i][j] = ty[i][j];
     ret.Home_x = Home_x;
     ret.Home_y = Home_y;
+    ret.END = 0;
     for(int i=1;i<=cnt_Enemy;++i)if(_E[i].health > eps || _E[i].save > eps)ret.E.push_back(_E[i]);
     for(int i=1;i<=cnt_Tower;++i)if(_T[i].health > eps || _T[i].save > eps)ret.T.push_back(_T[i]);
 
     for(int i=0;i<MAP_SIZE;++i)
     for(int j=0;j<MAP_SIZE;++j) if(Enemy_app[i][j].fl) ret.app.push_back(make_pair(i,j));
+
+    for (int i = 1;i <= cnt_Enemy;++i)if (_E[i].health > eps) {
+        double _x = abs(Home_x + 0.5 - _E[i].x);
+        double _y = abs(Home_y + 0.5 - _E[i].y);
+        if (_x * _x + _y * _y <= 2 + eps) {
+            ret.END = 1;
+        }
+    }
 
     return ret;
 }

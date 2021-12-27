@@ -55,6 +55,11 @@ void Game::initLight()
 
 void Game::MAP_init()
 {
+    setHome(20, 20);
+    setE(1, 1);
+    setE(10, 10);
+    setT(11, 11);
+
     // need reset Enemy_app   Home_x,Home_y
 }
 
@@ -77,7 +82,7 @@ void Game::setT(int x, int y)
     _M._T[_M.cnt_Tower].health = MAX_TowerHealth;
 }
 
-void Game::setE(int x, int y, int cd = CD_default)
+void Game::setE(int x, int y, int cd )
 {
     _M.Enemy_app[x][y].fl = 1;
     _M.Enemy_app[x][y].cd = _M.Enemy_app[x][y].counter = cd;
@@ -121,7 +126,9 @@ void rasterize(double x1,double y1,double x2,double y2,int a[][40])
 //deltaTime
 void Game::logic()
 {
-    _MAP new_M; 
+    
+    
+    _MAP new_M;
 
     for(int i=1;i<=_M.cnt_Enemy;++i)_M._E[i].save -= deltaTime;
     for(int i=1;i<=_M.cnt_Tower;++i)_M._T[i].save -= deltaTime;
@@ -154,7 +161,7 @@ void Game::logic()
             continue;
         }
         new_M.Enemy_app[i][j].counter = new_M.Enemy_app[i][j].cd;
-        new_M.new_Enemy(i,j);
+        new_M.new_Enemy(i+0.5,j+0.5);
     }
 
     //Tower
@@ -206,7 +213,8 @@ void Game::logic()
 
     for(int i = 1; i<=new_M.cnt_Tower; ++i)if(new_M._T[i].health > eps){
 
-        int ss = 1000, _j = 0;
+        double ss = 1000;
+            int _j = 0;
         for(int j=1;j<=new_M.cnt_Enemy; ++j)if(new_M._E[j].health > eps){
             memset(e,0,sizeof e);
             rasterize(new_M._T[i].x+0.5,new_M._T[i].y+0.5,new_M._E[j].x, new_M._E[j].y,e);
@@ -225,7 +233,7 @@ void Game::logic()
                 }
 
                 double t = abs(J-new_M._T[i].J);
-                t = std::min(t,180-t);
+                t = std::min(t,360-t);
                 if(t < ss){
                     ss = t; 
                     _j = j;
@@ -237,12 +245,23 @@ void Game::logic()
         if(ss <= deltaTime*VJ){
             double J = atan2(new_M._E[_j].y-(new_M._T[i].y +0.5 ),new_M._E[_j].x-(new_M._T[i].x +0.5 ));
             J *= 180 / acos(-1);
+            if (J < 0) {
+                J += 360;
+            }
             new_M._T[i].J = J;
-            new_M.Vector.push_back((P){_j, i, deltaTime - ss/VJ});
+            
+            P u;
+            u.dst = _j; u.src = i; u.del = deltaTime - ss / VJ;
+            new_M.Vector.push_back(u);
+            //new_M.Vector.push_back((P) ( _j, i, (double)deltaTime - ss / VJ ));
+            
             //new_M.Hit(_j, i, deltaTime - ss/VJ);
         } else{
             double J = atan2(new_M._E[_j].y-(new_M._T[i].y +0.5 ),new_M._E[_j].x-(new_M._T[i].x +0.5 ));
             J *= 180 / acos(-1);
+            if (J < 0) {
+                J += 360;
+            }
             ss -= deltaTime*VJ;
             if(J > new_M._T[i].J){
                 if(J-new_M._T[i].J < 180){
@@ -270,7 +289,11 @@ void Game::logic()
     
    
     //update
-    _M = new_M;
+    _M = new_M; 
+
+
+    cerr << "START" << endl;
+    for (int i = 1; i <= _M.cnt_Enemy;++i)cerr << _M._E[i].x << ' ' << _M._E[i].y << ' '<< _M._E[i].health<<endl;
 }
 
 void Game::drawScene(const glm::mat4 &projection, const glm::mat4 &view, ShaderProgram &prgm)
