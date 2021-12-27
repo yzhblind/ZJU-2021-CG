@@ -57,7 +57,7 @@ void Game::MAP_init()
 {
     setHome(20, 20);
     setE(1, 1);
-    setE(10, 10);
+    //setE(10, 10);
     setT(11, 11);
 
     // need reset Enemy_app   Home_x,Home_y
