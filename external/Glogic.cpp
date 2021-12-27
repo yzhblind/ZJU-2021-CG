@@ -235,9 +235,26 @@ pair<double,double> _MAP::find(double x,double y, double deltaTime)
 void _MAP::Hit(P x)
 {
     // 从 x.src 打 x.dst 
-
+    _T[x.src].fl = 1;
     if(_E[x.dst].health>eps && _E[x.dst].health < x.del) {
         //传出 x.dst die  //可能不需要
+        _E[x.dst].save = SAVE_TIME;
     }
     _E[x.dst].health -= x.del;
+}
+
+UPD _MAP::upd()
+{
+    UPD ret;
+    for(int i=0;i<MAP_SIZE;++i)
+    for(int j=0;j<MAP_SIZE;++j) ret.ty[i][j] = ty[i][j];
+    ret.Home_x = Home_x;
+    ret.Home_y = Home_y;
+    for(int i=1;i<=cnt_Enemy;++i)if(_E[i].health > eps || _E[i].save > eps)ret.E.push_back(_E[i]);
+    for(int i=1;i<=cnt_Tower;++i)if(_T[i].health > eps || _T[i].save > eps)ret.T.push_back(_T[i]);
+
+    for(int i=0;i<MAP_SIZE;++i)
+    for(int j=0;j<MAP_SIZE;++j) if(Enemy_app[i][j].fl) ret.app.push_back(make_pair(i,j));
+
+    return ret;
 }
