@@ -127,12 +127,12 @@ public:
     }
 
     ~_MAP() {
-        for (int i = 0; i < MAP_SIZE * 4 * SPLIT + 10; i++) delete[]di[i];
-        delete[]di;
-        for (int i = 0; i < MAP_SIZE * 4 * SPLIT + 10; i++) delete[]di2[i];
-        delete[]di2;
-        for (int i = 0; i < MAP_SIZE * 4 * SPLIT + 10; i++) delete[]a[i];
-        delete[]a;
+          delete[]di[0];
+          delete[]di;
+          delete[]di2[0];
+          delete[]di2;
+          delete[]a[0];
+          delete[]a;
     }
 
 
