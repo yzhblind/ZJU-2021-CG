@@ -127,12 +127,12 @@ public:
     }
 
     ~_MAP() {
-          delete[]di[0];
-          delete[]di;
-          delete[]di2[0];
-          delete[]di2;
-          delete[]a[0];
-          delete[]a;
+          //delete[]di[0];
+          //delete[]di;
+          //delete[]di2[0];
+          //delete[]di2;
+          //delete[]a[0];
+          //delete[]a;
     }
 
 
