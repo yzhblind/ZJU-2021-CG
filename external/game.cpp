@@ -189,23 +189,29 @@ void Game::logic()
         if(!_j) continue;
         if(ss <= deltaTime*VJ){
             double J = atan2(new_M._E[_j].y-new_M._T[i].y,new_M._E[_j].x-new_M._T[i].x);
+            J *= 180 / acos(-1);
             new_M._T[i].J = J;
             new_M.Vector.push_back((P){_j, i, deltaTime - ss/VJ});
             //new_M.Hit(_j, i, deltaTime - ss/VJ);
         } else{
             double J = atan2(new_M._E[_j].y-new_M._T[i].y,new_M._E[_j].x-new_M._T[i].x);
+            J *= 180 / acos(-1);
             ss -= deltaTime*VJ;
             if(J > new_M._T[i].J){
                 if(J-new_M._T[i].J < 180){
                     new_M._T[i].J += ss;
+                    if(new_M._T[i].J > 360) new_M._T[i].J-=360;
                 } else {
                     new_M._T[i].J -= ss;
+                    if(new_M._T[i].J < 0) new_M._T[i].J+=360;
                 }
             } else {
                 if(new_M._T[i].J-J < 180){
                     new_M._T[i].J -= ss;
+                    if(new_M._T[i].J < 0) new_M._T[i].J+=360;
                 } else {
                     new_M._T[i].J += ss;
+                    if(new_M._T[i].J > 360) new_M._T[i].J-=360;
                 }
             }
         }
