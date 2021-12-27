@@ -137,11 +137,11 @@ void Game::logic()
         }else {
             int I = 0, ss = 1e7;
             for(int i = 1; i <= _M.cnt_Tower; ++i)if(_M._T[i].health>eps){
-                if(sqrt((_M._T[i].x-res.first) * (_M._T[i].x-res.first) 
-                    + (_M._T[i].y-res.second) * (_M._T[i].y-res.second)) < ss){
+                if(sqrt((_M._T[i].x +0.5 -res.first) * (_M._T[i].x +0.5 -res.first) 
+                    + (_M._T[i].y +0.5 -res.second) * (_M._T[i].y +0.5 -res.second)) < ss){
                     I = i;
-                    ss = sqrt((_M._T[i].x-res.first) * (_M._T[i].x-res.first) 
-                    + (_M._T[i].y-res.second) * (_M._T[i].y-res.second));
+                    ss = sqrt((_M._T[i].x +0.5 -res.first) * (_M._T[i].x +0.5 -res.first) 
+                    + (_M._T[i].y +0.5 -res.second) * (_M._T[i].y +0.5 -res.second));
                 }
             }
             new_M._T[I].health -= max((double)0,(double)deltaTime - ss); //吃塔
@@ -171,7 +171,9 @@ void Game::logic()
                 fl = 1;
             }
             if(!fl) {
-                double J = atan2(new_M._E[j].y-new_M._T[i].y,new_M._E[j].x-new_M._T[i].x);
+                double J = atan2(
+                    new_M._E[j].y-(new_M._T[i].y +0.5 ),
+                    new_M._E[j].x-(new_M._T[i].x +0.5 ));
                 J *= 180 / acos(-1);
                 if(J < 0) {
                     J += 360;
@@ -188,13 +190,13 @@ void Game::logic()
 
         if(!_j) continue;
         if(ss <= deltaTime*VJ){
-            double J = atan2(new_M._E[_j].y-new_M._T[i].y,new_M._E[_j].x-new_M._T[i].x);
+            double J = atan2(new_M._E[_j].y-(new_M._T[i].y +0.5 ),new_M._E[_j].x-(new_M._T[i].x +0.5 ));
             J *= 180 / acos(-1);
             new_M._T[i].J = J;
             new_M.Vector.push_back((P){_j, i, deltaTime - ss/VJ});
             //new_M.Hit(_j, i, deltaTime - ss/VJ);
         } else{
-            double J = atan2(new_M._E[_j].y-new_M._T[i].y,new_M._E[_j].x-new_M._T[i].x);
+            double J = atan2(new_M._E[_j].y-(new_M._T[i].y +0.5 ),new_M._E[_j].x-(new_M._T[i].x +0.5 ));
             J *= 180 / acos(-1);
             ss -= deltaTime*VJ;
             if(J > new_M._T[i].J){
