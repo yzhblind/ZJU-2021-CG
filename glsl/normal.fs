@@ -114,8 +114,8 @@ void main() {
   vec3 result1 = vec3(0);
 
   if (en_light0) {
-    float shadowFactor =
-        ShadowCalculation(fs_in.FragPosLightSpace, normal, lightDir0);
+    float shadowFactor = ShadowCalculation(fs_in.FragPosLightSpace,
+                                           vec3(0.0, 0.0, 1.0), lightDir0);
     result0 = ambient * light0.ambient +
               (diffuse0 * light0.diffuse + specular0 * light0.specular) *
                   (1.0 - shadowFactor);

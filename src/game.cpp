@@ -98,7 +98,7 @@ void Game::shadowGen(const glm::mat4 &projection, const glm::mat4 &view)
 {
     // Camera &c = cam[cameraState];
     // vec3 viewCenter = c.pos;
-    mat4 lightProjection = ortho(-20.0f, 20.0f, -20.0f, 20.0f, 0.1f, 80.0f);
+    mat4 lightProjection = ortho(-20.0f, 20.0f, -20.0f, 20.0f, 0.1f, 50.0f);
     vec3 lightPos = vec3(40.0f, 0.0f, 40.0f) - 32.0f * normalize(light0.direction);
     mat4 lightView = lookAt(lightPos, vec3(40.0f, 0.0f, 40.0f), vec3(0.0f, 1.0f, 0.0f));
     mat4 lightSpaceMatrix = lightProjection * lightView;
