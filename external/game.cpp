@@ -19,6 +19,43 @@ void Game::MAP_init()
     // need reset Enemy_app   Home_x,Home_y
 }
 
+UPD Game::upd()
+{
+    return _M.upd();
+}
+
+void Game::setHome(int x, int y)
+{
+    _M.Home_x = x;
+    _M.Home_y = y;
+}
+
+void Game::setT(int x, int y)
+{
+    ++_M.cnt_Tower;
+    _M._T[_M.cnt_Tower].x = x;
+    _M._T[_M.cnt_Tower].y = y;
+    _M._T[_M.cnt_Tower].health = MAX_TowerHealth;
+}
+
+void Game::setE(int x, int y, int cd = CD_default)
+{
+    _M.Enemy_app[x][y].fl = 1;
+    _M.Enemy_app[x][y].cd = _M.Enemy_app[x][y].counter = cd;
+}
+
+void Game::delT(int x, int y)
+{
+    for(int i=1;i<=_M.cnt_Tower;++i)if(_M._T[i].x==x&&_M._T[i].y==y){
+        _M._T[i].save = _M._T[i].health = -1;
+    }
+}
+
+void Game::delE(int x, int y)
+{
+    _M.Enemy_app[x][y].fl = 0;
+}
+
 void rasterize(double x1,double y1,double x2,double y2,int a[][40])
 {
 	if(x1>x2) swap(x1,x2),swap(y1,y2);
@@ -47,6 +84,9 @@ void Game::logic()
 {
     _MAP new_M; 
 
+    for(int i=1;i<=_M.cnt_Enemy;++i)_M._E[i].save -= deltaTime;
+    for(int i=1;i<=_M.cnt_Tower;++i)_M._T[i].save -= deltaTime;
+
     //home
     new_M.Home_x = _M.Home_x;
     new_M.Home_y = _M.Home_y;
@@ -57,6 +97,12 @@ void Game::logic()
         new_M.ty[i][j] = _M.ty[i][j];
     }
     
+    //Enemy_init
+    //for(int i = 1; i <= _M.cnt_Enemy; ++i){
+    //    ++new_M.cnt_Enemy;
+    //    new_M._E[new_M.cnt_Enemy] = _M._E[i];
+    //}
+
     //Enemy_app
     for(int i = 0; i < MAP_SIZE; ++i)
     for(int j = 0; j < MAP_SIZE; ++j) {
@@ -75,7 +121,8 @@ void Game::logic()
     //Tower
     for(int i = 1; i <= _M.cnt_Tower; ++i){
         ++new_M.cnt_Tower;
-        new_M._T[++new_M.cnt_Tower] = _M._T[i];
+        new_M._T[new_M.cnt_Tower] = _M._T[i];
+        new_M._T[new_M.cnt_Tower].fl = 0;
     }
 
 
@@ -98,7 +145,13 @@ void Game::logic()
                 }
             }
             new_M._T[I].health -= max((double)0,(double)deltaTime - ss); //吃塔
+            if(new_M._T[I].health < eps){  //吃席
+                new_M._T[I].save = SAVE_TIME;
+            }
         }
+    } else if(_M._E[i].save > eps){
+        ++new_M.cnt_Enemy;
+        new_M._E[new_M.cnt_Enemy] = _M._E[i];
     }
 
     //炮击
@@ -133,6 +186,7 @@ void Game::logic()
             }
         }
 
+        if(!_j) continue;
         if(ss <= deltaTime*VJ){
             double J = atan2(new_M._E[_j].y-new_M._T[i].y,new_M._E[_j].x-new_M._T[i].x);
             new_M._T[i].J = J;
