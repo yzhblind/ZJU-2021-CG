@@ -24,6 +24,7 @@ public:
     void delT(int x, int y); //撤塔
     void delE(int x, int y); //撤出怪点
     void setHome(int x, int y); //设置家
+    void setWall(int x, int y); //设置家
     UPD data2draw;
 
 public:

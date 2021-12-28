@@ -367,7 +367,7 @@ void Game::MAP_init()
     // setE(10, 10);
     setT(6, 6);
     setT(5, 7);
-
+    setWall(11, 11);
     // need reset Enemy_app   Home_x,Home_y
 }
 
@@ -663,4 +663,9 @@ void Game::updateSky(const glm::mat4 &projection, const glm::mat4 &view)
 void Game::drawSky()
 {
     sky.draw(skyShader);
+}
+
+void Game::setWall(int x, int y)
+{
+    _M.ty[x][y] = 1;
 }
