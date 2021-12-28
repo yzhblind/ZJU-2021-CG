@@ -146,11 +146,14 @@ void rasterize(double x1, double y1, double x2, double y2, int a[][40])
     }
 }
 
+
+_MAP new_M;
+
 // deltaTime
 void Game::logic()
 {
 
-    _MAP new_M;
+    new_M.cnt_Enemy = new_M.cnt_Tower = 0;
 
     for (int i = 1; i <= _M.cnt_Enemy; ++i)
         _M._E[i].save -= deltaTime;
