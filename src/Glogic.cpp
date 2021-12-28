@@ -50,7 +50,7 @@ void _MAP::find_init()
                 Y[qn] = y;
             }
         }
-        if (x < MAP_SIZE - 1 && !a[x + 1][y]) {
+        if (x < MAP_SIZE * 4 * SPLIT - 1 && !a[x + 1][y]) {
             if (di[x + 1][y] > di[x][y] + 1) {
                 di[x + 1][y] = di[x][y] + 1;
                 X[++qn] = x + 1;
@@ -64,7 +64,7 @@ void _MAP::find_init()
                 Y[qn] = y - 1;
             }
         }
-        if (y < MAP_SIZE - 1 && !a[x][y + 1]) {
+        if (y < MAP_SIZE * 4 * SPLIT-1 && !a[x][y + 1]) {
             if (di[x][y + 1] > di[x][y] + 1) {
                 di[x][y + 1] = di[x][y] + 1;
                 X[++qn] = x;
@@ -92,7 +92,7 @@ void _MAP::find_init()
                 Y[qn] = y;
             }
         }
-        if (x < MAP_SIZE - 1 && !a[x + 1][y]) {
+        if (x < MAP_SIZE * 4 * SPLIT - 1 && !a[x + 1][y]) {
             if (di2[x + 1][y] > di2[x][y] + 1) {
                 di2[x + 1][y] = di2[x][y] + 1;
                 X[++qn] = x + 1;
@@ -106,7 +106,7 @@ void _MAP::find_init()
                 Y[qn] = y - 1;
             }
         }
-        if (y < MAP_SIZE - 1 && !a[x][y + 1]) {
+        if (y < MAP_SIZE * 4 * SPLIT - 1 && !a[x][y + 1]) {
             if (di2[x][y + 1] > di2[x][y] + 1) {
                 di2[x][y + 1] = di2[x][y] + 1;
                 X[++qn] = x;
