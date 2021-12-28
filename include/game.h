@@ -31,13 +31,15 @@ public:
     void render();
     void processKeyMove(bool w, bool a, bool s, bool d);
     void processMouseMove(double xoffset, double yoffset);
+    void processRotate(bool q, bool e);
     void processLight(bool i, bool j, bool k, bool l);
     void switchCamera() { cameraState ^= 1; };
+    int getCameraState() { return cameraState; }
     void zoomInOutCamera(double yoffset)
     {
         cam[cameraState].zoomInOut(yoffset);
     }
-    void switchState(){ state ^= 1; }
+    void switchState() { state ^= 1; }
     glm::vec3 getCameraFront()
     {
         return cam[cameraState].front;
@@ -89,10 +91,20 @@ private:
     Model *turret;
     Model *box;
     Model *virus;
+    bool en_light1;
+    // glm::mat4 rotateMat;
+    Model *box2;
+    Model *sphere;
     ShaderProgram normalShader;
 
     void initModel();
-    void drawModel(const glm::mat4 &projection, const glm::mat4 &view, Model* m, ShaderProgram &prgm);
+    void drawModel(const glm::mat4 &projection, const glm::mat4 &view, Model *m, ShaderProgram &prgm);
+
+    unsigned int lineVAO, lineVBO;
+    ShaderProgram lineShader;
+
+    void initLine();
+    void drawLine(const std::vector<glm::vec3> &lines, const glm::mat4 &projection, const glm::mat4 &view, ShaderProgram &prgm);
 
     Skybox sky;
     ShaderProgram skyShader;

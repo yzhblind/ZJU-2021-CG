@@ -1,5 +1,6 @@
 #pragma once
 #include<mesh.h>
+#include<algorithm>
 #include <glm/glm.hpp>
 
 class Cube : public Mesh
