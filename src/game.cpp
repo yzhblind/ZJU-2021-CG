@@ -189,7 +189,7 @@ void Game::render()
     drawScene(projection, view, normalShader);
 
     vector<vec3> lines = {vec3(2.0f, 0.25f, 2.0f), vec3(2.0f, 0.25f, 60.0f)};
-    drawLine(lines, projection, view, lineShader);
+    // drawLine(lines, projection, view, lineShader);
 
     updateSky(projection, view);
     drawSky();
