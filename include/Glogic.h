@@ -14,7 +14,7 @@
 #define SAVE_TIME 0.5 //死亡后粒子持续
 #define VJ 5  //塔转速
 #define CD_default 5  //出怪
-
+#define _END 0.2
 using namespace std;
 
 class _Tower;

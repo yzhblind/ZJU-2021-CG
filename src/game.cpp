@@ -312,7 +312,7 @@ void Game::logic()
                 {
                     J += 360;
                 }
-                ss -= deltaTime * VJ;
+                ss = deltaTime * VJ;
                 if (J > new_M._T[i].J)
                 {
                     if (J - new_M._T[i].J < 180)

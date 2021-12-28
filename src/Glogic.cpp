@@ -124,7 +124,7 @@ pair<double, double> _MAP::find(int I, double deltaTime)
     int X = x * 4 * SPLIT + eps ;
     int Y = y * 4 * SPLIT + eps ;
 
-    if (sqrt((x - (Home_x + 0.5)) * (x - (Home_x + 0.5)) + (y - (Home_y + 0.5)) * (y - (Home_y + 0.5))) <= sqrt(2)) return make_pair(Home_x, Home_y);
+    if (sqrt((x - (Home_x + 0.5)) * (x - (Home_x + 0.5)) + (y - (Home_y + 0.5)) * (y - (Home_y + 0.5))) <= _END) return make_pair(Home_x, Home_y);
     if (a[X][Y])return make_pair(x, y);
 
     if (di[X][Y] < 999) {
@@ -239,7 +239,7 @@ UPD _MAP::upd()
     for (int i = 1;i <= cnt_Enemy;++i)if (_E[i].health > eps) {
         double _x = abs(Home_x + 0.5 - _E[i].x);
         double _y = abs(Home_y + 0.5 - _E[i].y);
-        if (_x * _x + _y * _y <= 2 + eps) {
+        if (_x * _x + _y * _y <= _END) {
             ret.END = 1;
 
         }
