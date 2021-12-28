@@ -174,6 +174,9 @@ void Game::edit()
 // deltaTime
 void Game::logic()
 {
+    if (deltaTime > 0.05)
+        deltaTime = 0.05;
+
 
     new_M.cnt_Enemy = new_M.cnt_Tower = 0;
 
@@ -402,8 +405,8 @@ void Game::logic()
     // update
     _M = new_M;
     upd();
-    // cerr << "START" << endl;
-    // for (int i = 1; i <= _M.cnt_Enemy;++i)cerr << _M._E[i].x << ' ' << _M._E[i].y << ' '<< _M._E[i].health<<endl;
+     cerr << "START" << endl;
+     for (int i = 1; i <= _M.cnt_Enemy;++i)cerr << _M._E[i].x << ' ' << _M._E[i].y << ' '<< _M._E[i].health<<endl;
 }
 // float baseAngle = 0.0f;
 void Game::MAP_init()
@@ -414,6 +417,9 @@ void Game::MAP_init()
     setWall(11, 11);
     setWall(10, 11);
     setWall(9, 11);
+    setWall(10, 9);
+    setWall(9, 10);
+    setWall(9, 9);
     setE(18, 18);
     setE(1, 18);
     setE(18, 1);
