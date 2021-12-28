@@ -143,7 +143,7 @@ void rasterize(double x1, double y1, double x2, double y2, int a[][40])
 _MAP new_M;
 void Game::edit()
 {
-    switchState();
+    // switchState();
     char op;
     std::cout << "please input opeation: wall: w, tower: t, entry: e "<<std::endl;
     std::cin >> op;
@@ -168,8 +168,7 @@ void Game::edit()
         std::cin >> x >> y;
         setE(x, y);
     }
-    switchState();
-    
+    // switchState();
 }
 // deltaTime
 void Game::logic()
@@ -408,8 +407,8 @@ void Game::logic()
     // update
     _M = new_M;
     upd();
-     cerr << "START" << endl;
-     for (int i = 1; i <= _M.cnt_Enemy;++i)cerr << _M._E[i].x << ' ' << _M._E[i].y << ' '<< _M._E[i].health<<endl;
+    //  cerr << "START" << endl;
+    //  for (int i = 1; i <= _M.cnt_Enemy;++i)cerr << _M._E[i].x << ' ' << _M._E[i].y << ' '<< _M._E[i].health<<endl;
 }
 // float baseAngle = 0.0f;
 void Game::MAP_init()
@@ -439,7 +438,7 @@ void Game::MAP_init()
     setT(4, 8);
     // setT(7, 5);
     setT(18, 16);
-    // setT(10, 9);
+    setT(10, 9);
 
     // need reset Enemy_app   Home_x,Home_y
 }
