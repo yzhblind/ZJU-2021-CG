@@ -28,9 +28,11 @@ public:
     double health;
     int fl; //是否发射
     double save;
-    
-    _Tower (int _x = 0, int _y = 0, double _h = MAX_TowerHealth,double _J=0,int _fl =0)
-        :x(_x), y(_y), health(_h),J(_J),fl(_fl){save = 0;}
+
+    _Tower(int _x = 0, int _y = 0, double _h = MAX_TowerHealth, double _J = 0, int _fl = 0)
+        :x(_x), y(_y), health(_h), J(_J), fl(_fl) {
+        save = 0;
+    }
 };
 
 class _Enemy {
@@ -44,7 +46,7 @@ class _Enemy_app {
 public:
     int fl;
     double counter, cd;
-    _Enemy_app() {fl = counter = cd = 0;}
+    _Enemy_app() { fl = counter = cd = 0; }
     void operator = (_Enemy_app a) {
         fl = a.fl;
         counter = a.counter;
@@ -61,20 +63,20 @@ public:
 
 class UPD {
 
-/*
-ty = 1  是墙
-T 塔   x,y 位置   J 角度   fl 是否在发射  health生命  save死亡后还能存活多久
-E 病毒 x,y 位置   health生命  save死亡后还能存活多久
-Home 家
-app 出怪点
-*/
+    /*
+    ty = 1  是墙
+    T 塔   x,y 位置   J 角度   fl 是否在发射  health生命  save死亡后还能存活多久
+    E 病毒 x,y 位置   health生命  save死亡后还能存活多久
+    Home 家
+    app 出怪点
+    */
 
 public:
-    int ty[MAP_SIZE + 5][MAP_SIZE + 5];  
+    int ty[MAP_SIZE + 5][MAP_SIZE + 5];
     vector<_Tower>T;
     vector<_Enemy>E;
-    vector<pair<int,int>> app;
-    int Home_x,Home_y; 
+    vector<pair<int, int>> app;
+    int Home_x, Home_y;
     int END;
 };
 
@@ -91,12 +93,44 @@ public:
     int cnt_Tower, cnt_Enemy;
     int Home_x, Home_y;
 
-    int **di, **di2;
-    int **a;
-   vector<P>Vector;
-//[MAP_SIZE * 4 * SPLIT + 10][MAP_SIZE * 4 * SPLIT + 10]
+   // int** di, ** di2;
+   // int** a;
+    vector<P>Vector;
+    int di[MAP_SIZE * 4 * SPLIT + 10][MAP_SIZE * 4 * SPLIT + 10];
+    int a[MAP_SIZE * 4 * SPLIT + 10][MAP_SIZE * 4 * SPLIT + 10];
+    int di2[MAP_SIZE * 4 * SPLIT + 10][MAP_SIZE * 4 * SPLIT + 10];
+
+    void operator = (const _MAP& _) {
+        for (int i = 0;i < MAP_SIZE * 4 * SPLIT + 10;i++)
+        for (int j = 0;j < MAP_SIZE * 4 * SPLIT + 10;j++) {
+            a[i][j] = _.a[i][j];
+        }
+        for (int i = 0;i < MAP_SIZE * 4 * SPLIT + 10;i++)
+            for (int j = 0;j < MAP_SIZE * 4 * SPLIT + 10;j++) {
+                di[i][j] = _.di[i][j];
+            }
+        for (int i = 0;i < MAP_SIZE * 4 * SPLIT + 10;i++)
+            for (int j = 0;j < MAP_SIZE * 4 * SPLIT + 10;j++) {
+                di2[i][j] = _.di2[i][j];
+            }
+        for (int i = 0;i < MAP_SIZE+5;i++)
+            for (int j = 0;j < MAP_SIZE+5;j++) {
+                ty[i][j] = _.ty[i][j];
+            }
+        for (int i = 0;i < MAP_SIZE + 5;i++)
+            for (int j = 0;j < MAP_SIZE + 5;j++) {
+                Enemy_app[i][j] = _.Enemy_app[i][j];
+            }
+        cnt_Tower = _.cnt_Tower; cnt_Enemy = _.cnt_Enemy;
+        for (int i = 1;i <= cnt_Tower;++i)_T[i] = _._T[i];
+        for (int i = 1;i <= cnt_Enemy;++i)_E[i] = _._E[i];
+        Home_x = _.Home_x;
+        Home_y = _.Home_y;
+        Vector = _.Vector;
+    }
+
     _MAP() {
-        di = new int* [MAP_SIZE * 4 * SPLIT + 10];
+      /*  di = new int* [MAP_SIZE * 4 * SPLIT + 10];
         di[0] = new int[(MAP_SIZE * 4 * SPLIT + 10) * (MAP_SIZE * 4 * SPLIT + 10)];
         for (int i = 1;i < MAP_SIZE * 4 * SPLIT + 10;i++)
         {
@@ -113,7 +147,7 @@ public:
         for (int i = 1;i < MAP_SIZE * 4 * SPLIT + 10;i++)
         {
             a[i] = a[i - 1] + MAP_SIZE * 4 * SPLIT + 10;
-        }
+        }*/
 
         for (int i = 0;i < MAP_SIZE * 4 * SPLIT + 10;i++)
             for (int j = 0;j < MAP_SIZE * 4 * SPLIT + 10;j++)di[i][j] = di2[i][j] = a[i][j] = 0;
@@ -121,25 +155,25 @@ public:
         //memset(di, 0, sizeof di);
        // memset(di2, 0, sizeof di2);
         memset(ty, 0, sizeof ty);
-       // memset(a, 0, sizeof a);
+        // memset(a, 0, sizeof a);
         Vector.resize(0);
         cnt_Tower = cnt_Enemy = 0;
         Home_x = Home_y = MAP_SIZE - 1;
     }
 
-    ~_MAP() {
-          delete[]di[0];
-          delete[]di;
-          delete[]di2[0];
-          delete[]di2;
-          delete[]a[0];
-          delete[]a;
+   /* ~_MAP() {
+        delete[]di[0];
+        delete[]di;
+        delete[]di2[0];
+        delete[]di2;
+        delete[]a[0];
+        delete[]a;
     }
-
+    */
 
     int new_Enemy(double x, double y, double counter = MAX_EnemyHealth);
-   void find_init();
+    void find_init();
     pair<double, double> find(double x, double y, double deltaTime);
-   void Hit(P x);
+    void Hit(P x);
     UPD upd();
 };
