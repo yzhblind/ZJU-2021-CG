@@ -422,7 +422,6 @@ void Game::logic()
 void Game::MAP_init()
 {
     setHome(10, 10);
-    setWall(11, 4);
     setWall(11, 5);
     setWall(11, 6);
     setWall(11, 7);
