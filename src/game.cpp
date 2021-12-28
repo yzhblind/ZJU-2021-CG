@@ -202,7 +202,7 @@ void Game::logic()
     for (int i = 1; i <= _M.cnt_Enemy; ++i)
         if (_M._E[i].health > eps)
         {
-            pair<double, double> res = _M.find(i,deltaTime);
+            pair<double, double> res = _M.find(i, deltaTime);
 
             if (res.first < -0.5)
             {
@@ -265,9 +265,7 @@ void Game::logic()
                             }
                     if (!fl)
                     {
-                        double dis = sqrt((new_M.Home_x + 0.5 - new_M._E[j].x) * (new_M.Home_x + 0.5 - new_M._E[j].x)
-                            + (new_M.Home_y + 0.5 - new_M._E[j].y) * (new_M.Home_y + 0.5 - new_M._E[j].y));
-
+                        double dis = sqrt((new_M.Home_x + 0.5 - new_M._E[j].x) * (new_M.Home_x + 0.5 - new_M._E[j].x) + (new_M.Home_y + 0.5 - new_M._E[j].y) * (new_M.Home_y + 0.5 - new_M._E[j].y));
 
                         double J = atan2(
                             new_M._E[j].y - (new_M._T[i].y + 0.5),
@@ -279,26 +277,31 @@ void Game::logic()
                         }
                         double t = abs(J - new_M._T[i].J);
                         t = std::min(t, 360 - t);
-                        
 
-                        if (Dis < _WARNING) {
-                            if (dis < Dis) {
-                                Dis = dis; _j = j; ss = t;
+                        if (Dis < _WARNING)
+                        {
+                            if (dis < Dis)
+                            {
+                                Dis = dis;
+                                _j = j;
+                                ss = t;
                             }
                         }
-                        else {
-                            if (dis < _WARNING) {
-                                Dis = dis; _j = j; ss = t;
-                            } else
-                            if (t < ss)
+                        else
+                        {
+                            if (dis < _WARNING)
+                            {
+                                Dis = dis;
+                                _j = j;
+                                ss = t;
+                            }
+                            else if (t < ss)
                             {
                                 Dis = dis;
                                 ss = t;
                                 _j = j;
                             }
                         }
-
-                        
                     }
                 }
 
@@ -380,18 +383,32 @@ void Game::logic()
 void Game::MAP_init()
 {
     setHome(10, 10);
+    setWall(11, 4);
+    setWall(11, 5);
+    setWall(11, 6);
+    setWall(11, 7);
+    setWall(11, 8);
     setWall(11, 9);
     setWall(11, 10);
     setWall(11, 11);
     setWall(10, 11);
     setWall(9, 11);
+    setWall(9, 10);
+    setWall(9, 9);
+    setWall(9, 8);
+    setWall(9, 7);
+    setWall(9, 6);
     setE(18, 18);
     setE(1, 18);
     setE(18, 1);
     // setE(10, 10);
     setT(6, 6);
-    setT(5, 7);
-    
+    // setT(5, 7);
+    setT(4, 8);
+    // setT(7, 5);
+    setT(18, 16);
+    // setT(10, 9);
+
     // need reset Enemy_app   Home_x,Home_y
 }
 
@@ -418,7 +435,7 @@ void Game::drawScene(const glm::mat4 &projection, const glm::mat4 &view, ShaderP
         {
             modelStack.push();
             modelStack.rotate(-data2draw.T[i].J + 180.0f, vec3(0.0f, 1.0f, 0.0f));
-            modelStack.translate(vec3((float)data2draw.T[i].x * 4, 0.0f, (float)data2draw.T[i].y * 4));
+            modelStack.translate(vec3((float)(data2draw.T[i].x) * 4, 0.0f, (float)(data2draw.T[i].y) * 4));
             drawModel(projection, view, turret, prgm);
             modelStack.pop();
         }
@@ -444,7 +461,7 @@ void Game::drawScene(const glm::mat4 &projection, const glm::mat4 &view, ShaderP
         {
             modelStack.push();
             modelStack.scale(vec3(std::max((float)(data2draw.E[i].health / MAX_EnemyHealth), 0.4f)));
-            modelStack.translate(vec3((float)data2draw.E[i].x * 4, 0.0f, (float)data2draw.E[i].y * 4));
+            modelStack.translate(vec3((float)(data2draw.E[i].x - 0.5) * 4, 0.25f, (float)(data2draw.E[i].y - 0.5) * 4));
             drawModel(projection, view, virus, prgm);
             modelStack.pop();
         }
@@ -491,7 +508,7 @@ void Game::drawScene(const glm::mat4 &projection, const glm::mat4 &view, ShaderP
         for (int j = 0; j < 20; ++j)
         {
             modelStack.push();
-            modelStack.translate(vec3((float)i * 4, 0.25f, (float)j * 4));
+            modelStack.translate(vec3((float)i * 4, 0.0f, (float)j * 4));
             if (((i + j) & 1) == 0)
                 drawModel(projection, view, box, prgm);
             else
@@ -573,7 +590,7 @@ void Game::drawLine(const glm::mat4 &projection, const glm::mat4 &view, ShaderPr
         if (data2draw.T[i].fl)
         {
             lines.push_back(vec3((float)data2draw.T[i].x * 4, 0.25f, (float)data2draw.T[i].y * 4));
-            lines.push_back(vec3((float)data2draw.T[i].dstx * 4, 0.25f, (float)data2draw.T[i].dsty * 4));
+            lines.push_back(vec3((float)(data2draw.T[i].dstx - 0.5) * 4, 0.25f, (float)(data2draw.T[i].dsty - 0.5) * 4));
         }
     }
     if (lines.size() == 0)
