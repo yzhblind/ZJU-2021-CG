@@ -31,6 +31,7 @@ public:
     void init();
     void logic();
     void render();
+    void edit();
     void processKeyMove(bool w, bool a, bool s, bool d);
     void processMouseMove(double xoffset, double yoffset);
     void processRotate(bool q, bool e);

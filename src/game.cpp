@@ -141,7 +141,36 @@ void rasterize(double x1, double y1, double x2, double y2, int a[][40])
 }
 
 _MAP new_M;
-
+void Game::edit()
+{
+    switchState();
+    char op;
+    std::cout << "please input opeation: wall: w, tower: t, entry: e "<<std::endl;
+    std::cin >> op;
+    if (op == 'w')
+    {
+        int x, y;
+        std::cout << "please input x, y:";
+        std::cin >> x >> y;
+        setWall(x, y);
+    }
+    else if (op == 't')
+    {
+        int x, y;
+        std::cout << "please input x, y:";
+        std::cin >> x >> y;
+        setT(x, y);
+    }
+    else if (op == 'e')
+    {
+        int x, y;
+        std::cout << "please input x, y:";
+        std::cin >> x >> y;
+        setE(x, y);
+    }
+    switchState();
+    
+}
 // deltaTime
 void Game::logic()
 {
