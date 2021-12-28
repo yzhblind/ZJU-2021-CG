@@ -233,7 +233,14 @@ void Game::logic()
     for (int i = 1; i <= _M.cnt_Enemy; ++i)
         if (_M._E[i].health > eps)
         {
+            _Enemy sw = _M._E[i];
             pair<double, double> res = _M.find(i, deltaTime);
+
+            
+
+            int _FL = 0;
+            for (int j = 1; j <= _M.cnt_Enemy; ++j) if (i != j)if (sqrt((res.first - _M._E[j].x) * (res.first - _M._E[j].x)
+                + (res.second - _M._E[j].y) * (res.second - _M._E[j].y)) < 2 * ER) _FL = 1;
 
             if (res.first < -0.5)
             {
@@ -241,7 +248,8 @@ void Game::logic()
                 continue;
             }
 
-            new_M.new_Enemy(res.first, res.second, _M._E[i].health, _M._E[i].flx, _M._E[i].fly);
+            if(_FL)new_M.new_Enemy(sw.x, sw.y, sw.health, sw.flx, sw.fly),res.first=sw.x,res.second=sw.y;
+            else new_M.new_Enemy(res.first, res.second, _M._E[i].health, _M._E[i].flx, _M._E[i].fly);
             if (sqrt((res.first - _M._E[i].x) * (res.first - _M._E[i].x) + (res.second - _M._E[i].y) * (res.second - _M._E[i].y)) >= deltaTime - eps)
             {
             }

@@ -6,7 +6,7 @@
 #define QIANG 1
 #define TA 2
 #define MAX_TowerHealth 5
-#define MAX_EnemyHealth 2
+#define MAX_EnemyHealth 5
 #define MAP_SIZE 20
 #define eps 1e-7
 #define SPLIT 5
@@ -16,6 +16,7 @@
 #define CD_default 5  //出怪
 #define _END 0.2
 #define _WARNING 7
+#define ER 0.2//怪物半径
 using namespace std;
 
 class _Tower;
