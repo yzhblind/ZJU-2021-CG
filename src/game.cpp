@@ -141,10 +141,42 @@ void rasterize(double x1, double y1, double x2, double y2, int a[][40])
 }
 
 _MAP new_M;
-
+void Game::edit()
+{
+    switchState();
+    char op;
+    std::cout << "please input opeation: wall: w, tower: t, entry: e "<<std::endl;
+    std::cin >> op;
+    if (op == 'w')
+    {
+        int x, y;
+        std::cout << "please input x, y:";
+        std::cin >> x >> y;
+        setWall(x, y);
+    }
+    else if (op == 't')
+    {
+        int x, y;
+        std::cout << "please input x, y:";
+        std::cin >> x >> y;
+        setT(x, y);
+    }
+    else if (op == 'e')
+    {
+        int x, y;
+        std::cout << "please input x, y:";
+        std::cin >> x >> y;
+        setE(x, y);
+    }
+    switchState();
+    
+}
 // deltaTime
 void Game::logic()
 {
+    if (deltaTime > 0.05)
+        deltaTime = 0.05;
+
 
     new_M.cnt_Enemy = new_M.cnt_Tower = 0;
 
@@ -376,8 +408,8 @@ void Game::logic()
     // update
     _M = new_M;
     upd();
-    // cerr << "START" << endl;
-    // for (int i = 1; i <= _M.cnt_Enemy;++i)cerr << _M._E[i].x << ' ' << _M._E[i].y << ' '<< _M._E[i].health<<endl;
+     cerr << "START" << endl;
+     for (int i = 1; i <= _M.cnt_Enemy;++i)cerr << _M._E[i].x << ' ' << _M._E[i].y << ' '<< _M._E[i].health<<endl;
 }
 // float baseAngle = 0.0f;
 void Game::MAP_init()

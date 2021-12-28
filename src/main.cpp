@@ -130,4 +130,8 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
     {
         myGame.switchState();
     }
+    if (key == GLFW_KEY_C && action == GLFW_PRESS)
+    {
+        myGame.edit();
+    }
 }
