@@ -18,12 +18,13 @@ class Game
 public:
     _MAP _M;
     void MAP_init();
-    UPD upd(); //传出当前场景
+    void upd(); //传出当前场景
     void setT(int x, int y); //放塔
     void setE(int x, int y, int cd=CD_default); //放出怪点
     void delT(int x, int y); //撤塔
     void delE(int x, int y); //撤出怪点
     void setHome(int x, int y); //设置家
+    UPD data2draw;
 
 public:
     void init();

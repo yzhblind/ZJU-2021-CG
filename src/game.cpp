@@ -80,9 +80,9 @@ void Game::MAP_init()
     // need reset Enemy_app   Home_x,Home_y
 }
 
-UPD Game::upd()
+void Game::upd()
 {
-    return _M.upd();
+    data2draw = _M.upd();
 }
 
 void Game::setHome(int x, int y)
@@ -483,7 +483,7 @@ void Game::render()
 
     drawScene(projection, view, normalShader);
 
-    vector<vec3> lines = {vec3(2.0f, 0.25f, 2.0f), vec3(2.0f, 0.25f, 60.0f)};
+    vector<vec3> lines = {};
     drawLine(lines, projection, view, lineShader);
 
     updateSky(projection, view);
