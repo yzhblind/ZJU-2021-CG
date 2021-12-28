@@ -75,7 +75,16 @@ void _MAP::find_init()
         }
     }
 
+    for (int i = 0;i < MAP_SIZE * 4 * SPLIT + 10;i++)
+        for (int j = 0;j < MAP_SIZE * 4 * SPLIT + 10;j++)a[i][j] = 0;
 
+    for (int i = 0; i < MAP_SIZE; ++i)
+        for (int j = 0; j < MAP_SIZE; ++j) {
+            if (ty[i][j] == QIANG) {
+                for (int k = i * 4 * SPLIT - PZ; k <= (i * 4 + 4) * SPLIT - 1 + PZ; ++k)
+                    for (int l = j * 4 * SPLIT - PZ; l <= (j * 4 + 4) * SPLIT - 1 + PZ; ++l) if (k >= 0 && l >= 0)a[k][l] = 1;
+            }
+        }
     for (int i = 0;i < MAP_SIZE * 4 * SPLIT;++i)
         for (int j = 0;j < MAP_SIZE * 4 * SPLIT;++j) di2[i][j] = 9999;
     qn = 0;
@@ -123,6 +132,11 @@ pair<double, double> _MAP::find(int I, double deltaTime)
     double y = _E[I].y;
     int X = x * 4 * SPLIT + eps ;
     int Y = y * 4 * SPLIT + eps ;
+
+    if (a[X][Y]) {
+        int uu = 1;
+
+    }
 
     if (sqrt((x - (Home_x + 0.5)) * (x - (Home_x + 0.5)) + (y - (Home_y + 0.5)) * (y - (Home_y + 0.5))) <= _END) return make_pair(Home_x, Home_y);
     if (a[X][Y])return make_pair(x, y);
