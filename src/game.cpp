@@ -145,6 +145,9 @@ _MAP new_M;
 // deltaTime
 void Game::logic()
 {
+    if (deltaTime > 0.05)
+        deltaTime = 0.05;
+
 
     new_M.cnt_Enemy = new_M.cnt_Tower = 0;
 
