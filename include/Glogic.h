@@ -8,7 +8,7 @@
 #define MAX_TowerHealth 5
 #define MAX_EnemyHealth 5
 #define MAP_SIZE 20
-#define eps 1e-3
+#define eps 1e-7
 #define SPLIT 5
 #define PZ (int)(0.76*SPLIT) //碰撞箱
 #define SAVE_TIME 0.5 //死亡后粒子持续
@@ -41,6 +41,7 @@ class _Enemy {
 public:
     double x, y, health;
     double save;
+    int flx, fly;
     _Enemy(int _x = 0, int _y = 0, double _h = MAX_EnemyHealth) :x(_x), y(_y), health(_h) { save = 0; }
 };
 
@@ -173,9 +174,9 @@ public:
      }
      */
 
-    int new_Enemy(double x, double y, double counter = MAX_EnemyHealth);
+    int new_Enemy(double x, double y, double counter = MAX_EnemyHealth,int fl1 = 1, int fl2 = 1);
     void find_init();
-    pair<double, double> find(double x, double y, double deltaTime);
+    pair<double, double> find(int I, double deltaTime);
     void Hit(P x);
     UPD upd();
 };

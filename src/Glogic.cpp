@@ -4,13 +4,15 @@
 using namespace std;
 int X[MAP_SIZE * 4 * SPLIT * MAP_SIZE * 4 * SPLIT + 10], Y[MAP_SIZE * 4 * SPLIT * MAP_SIZE * 4 * SPLIT + 10];
 
-int _MAP::new_Enemy(double x, double y, double counter)
+int _MAP::new_Enemy(double x, double y, double counter, int fl1, int fl2)
 {
     ++cnt_Enemy;
     _E[cnt_Enemy].x = x;
     _E[cnt_Enemy].y = y;
     _E[cnt_Enemy].health = counter;
 
+    _E[cnt_Enemy].flx = fl1;
+    _E[cnt_Enemy].fly = fl2;
     return cnt_Enemy;
 }
 
@@ -115,11 +117,12 @@ void _MAP::find_init()
         }
     }
 }
-
-pair<double, double> _MAP::find(double x, double y, double deltaTime)
+pair<double, double> _MAP::find(int I, double deltaTime)
 {
-    int X = x * 4 * SPLIT + eps;
-    int Y = y * 4 * SPLIT + eps;
+    double x = _E[I].x;
+    double y = _E[I].y;
+    int X = x * 4 * SPLIT + eps ;
+    int Y = y * 4 * SPLIT + eps ;
 
     if (sqrt((x - (Home_x + 0.5)) * (x - (Home_x + 0.5)) + (y - (Home_y + 0.5)) * (y - (Home_y + 0.5))) <= sqrt(2)) return make_pair(Home_x, Home_y);
     if (a[X][Y])return make_pair(x, y);
@@ -127,129 +130,83 @@ pair<double, double> _MAP::find(double x, double y, double deltaTime)
     if (di[X][Y] < 999) {
         int t = rand() & 1;
         double _x = x, _y = y;
-        if (fabs(x * 4 * SPLIT - X) < eps && fabs(y * 4 * SPLIT - Y) < eps) {
+
             if (di[X][Y + 1] < di[X][Y] && di[X + 1][Y] < di[X][Y]) {
-                if (t) _x += deltaTime; else _y += deltaTime;
+                if (t) _x += deltaTime, _E[I].flx=0; else _y += deltaTime, _E[I].fly=0;
             }
             else
                 if (di[X][Y + 1] < di[X][Y] && X>0 && di[X - 1][Y] < di[X][Y]) {
-                    if (t) _x -= deltaTime; else _y += deltaTime;
+                    if (t) _x -= deltaTime, _E[I].flx = 0; else _y += deltaTime, _E[I].fly = 0;
                 }
                 else
                     if (Y > 0 && di[X][Y - 1] < di[X][Y] && di[X + 1][Y] < di[X][Y]) {
-                        if (t) _x += deltaTime; else _y -= deltaTime;
+                        if (t) _x += deltaTime, _E[I].flx = 0; else _y -= deltaTime, _E[I].fly = 0;
                     }
                     else
                         if (Y > 0 && di[X][Y - 1] < di[X][Y] && X>0 && di[X - 1][Y] < di[X][Y]) {
-                            if (t) _x -= deltaTime; else _y -= deltaTime;
+                            if (t) _x -= deltaTime, _E[I].flx = 0; else _y -= deltaTime, _E[I].fly = 0;
                         }
                         else {
                             if (di[X + 1][Y] < di[X][Y]) {
-                                _x += deltaTime;
+                                _x += deltaTime, _E[I].flx = 0;
                             }
                             else
                                 if (X > 0 && di[X - 1][Y] < di[X][Y]) {
-                                    _x -= deltaTime;
+                                    _x -= deltaTime, _E[I].flx = 0;
                                 }
                                 else
                                     if (di[X][Y + 1] < di[X][Y]) {
-                                        _y += deltaTime;
+                                        _y += deltaTime, _E[I].fly = 0;
                                     }
                                     else
                                         if (Y > 0 && di[X][Y - 1] < di[X][Y]) {
-                                            _y -= deltaTime;
+                                            _y -= deltaTime, _E[I].fly = 0;
                                         }
                         }
             return make_pair(_x, _y);
         }
-        if (fabs(x * 4 * SPLIT - X) < eps) {
-
-            if (di[X][Y + 1] < di[X][Y]) {
-                _y += deltaTime;
-                _y = min(_y, (Y + 1) / 4.0 / SPLIT);
-            }
-            else
-                if (Y > 0 && di[X][Y - 1] < di[X][Y]) {
-                    _y -= deltaTime;
-                    _y = max(_y, (Y - 1) / 4.0 / SPLIT);
-                }
-            return make_pair(_x, _y);
-        }
-        if (di[X + 1][Y] < di[X][Y]) {
-            _x += deltaTime;
-            _x = min(_x, (X + 1) / 4.0 / SPLIT);
-        }
-        else
-            if (X > 0 && di[X - 1][Y] < di[X][Y]) {
-                _x -= deltaTime;
-                _x = max(_x, (X - 1) / 4.0 / SPLIT);
-            }
-        return make_pair(_x, _y);
-    }
+       
     if (di2[X][Y] > 999) {
         return make_pair(-1, -1);
     }
 
     int t = rand() & 1;
     double _x = x, _y = y;
-    if (fabs(x * 4 * SPLIT - X) < eps && fabs(y * 4 * SPLIT - Y) < eps) {
+
         if (di2[X][Y + 1] < di2[X][Y] && di2[X + 1][Y] < di2[X][Y]) {
-            if (t) _x += deltaTime; else _y += deltaTime;
+            if (t) _x += deltaTime, _E[I].flx = 0; else _y += deltaTime, _E[I].fly = 0;
         }
         else
             if (di2[X][Y + 1] < di2[X][Y] && X>0 && di2[X - 1][Y] < di2[X][Y]) {
-                if (t) _x -= deltaTime; else _y += deltaTime;
+                if (t) _x -= deltaTime, _E[I].flx = 0; else _y += deltaTime, _E[I].fly = 0;
             }
             else
                 if (Y > 0 && di2[X][Y - 1] < di2[X][Y] && di2[X + 1][Y] < di2[X][Y]) {
-                    if (t) _x += deltaTime; else _y -= deltaTime;
+                    if (t) _x += deltaTime, _E[I].flx = 0; else _y -= deltaTime, _E[I].fly = 0;
                 }
                 else
                     if (Y > 0 && di2[X][Y - 1] < di2[X][Y] && X>0 && di2[X - 1][Y] < di2[X][Y]) {
-                        if (t) _x -= deltaTime; else _y -= deltaTime;
+                        if (t) _x -= deltaTime, _E[I].flx = 0; else _y -= deltaTime, _E[I].fly = 0;
                     }
                     else {
                         if (di2[X + 1][Y] < di2[X][Y]) {
-                            _x += deltaTime;
+                            _x += deltaTime, _E[I].flx = 0;
                         }
                         else
                             if (X > 0 && di2[X - 1][Y] < di2[X][Y]) {
-                                _x -= deltaTime;
+                                _x -= deltaTime, _E[I].flx = 0;
                             }
                             else
                                 if (di2[X][Y + 1] < di2[X][Y]) {
-                                    _y += deltaTime;
+                                    _y += deltaTime, _E[I].fly = 0;
                                 }
                                 else
                                     if (Y > 0 && di2[X][Y - 1] < di2[X][Y]) {
-                                        _y -= deltaTime;
+                                        _y -= deltaTime, _E[I].fly = 0;
                                     }
                     }
         return make_pair(_x, _y);
-    }
-    if (fabs(x * 4 * SPLIT - X) < eps) {
-
-        if (di2[X][Y + 1] < di2[X][Y]) {
-            _y += deltaTime;
-            _y = min(_y, (Y + 1) / 4.0 / SPLIT);
-        }
-        else
-            if (Y > 0 && di2[X][Y - 1] < di2[X][Y]) {
-                _y -= deltaTime;
-                _y = max(_y, (Y - 1) / 4.0 / SPLIT);
-            }
-        return make_pair(_x, _y);
-    }
-    if (di2[X + 1][Y] < di2[X][Y]) {
-        _x += deltaTime;
-        _x = min(_x, (X + 1) / 4.0 / SPLIT);
-    }
-    else
-        if (X > 0 && di2[X - 1][Y] < di2[X][Y]) {
-            _x -= deltaTime;
-            _x = max(_x, (X - 1) / 4.0 / SPLIT);
-        }
-    return make_pair(_x, _y);
+   
 }
 
 void _MAP::Hit(P x)
