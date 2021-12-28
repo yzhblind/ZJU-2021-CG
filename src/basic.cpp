@@ -39,6 +39,7 @@ Sphere::Sphere(GLfloat r, int a, int b, glm::vec3 trans)
 	const double pi = acos(-1.0);
 	this->r = r; this->a = a;this->b = b;
 	int point_count = 0;
+	trans.y += r;
 	for (int i = 0;i < a;i++)
 	{
 		for (int j = 0;j < b;j++)
