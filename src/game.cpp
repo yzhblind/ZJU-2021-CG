@@ -249,6 +249,7 @@ void Game::logic()
         {
 
             double ss = 1000;
+            double Dis = 1000;
             int _j = 0;
             for (int j = 1; j <= new_M.cnt_Enemy; ++j)
                 if (new_M._E[j].health > eps)
@@ -264,6 +265,10 @@ void Game::logic()
                             }
                     if (!fl)
                     {
+                        double dis = sqrt((new_M.Home_x + 0.5 - new_M._E[j].x) * (new_M.Home_x + 0.5 - new_M._E[j].x)
+                            + (new_M.Home_y + 0.5 - new_M._E[j].y) * (new_M.Home_y + 0.5 - new_M._E[j].y));
+
+
                         double J = atan2(
                             new_M._E[j].y - (new_M._T[i].y + 0.5),
                             new_M._E[j].x - (new_M._T[i].x + 0.5));
@@ -272,14 +277,28 @@ void Game::logic()
                         {
                             J += 360;
                         }
-
                         double t = abs(J - new_M._T[i].J);
                         t = std::min(t, 360 - t);
-                        if (t < ss)
-                        {
-                            ss = t;
-                            _j = j;
+                        
+
+                        if (Dis < _WARNING) {
+                            if (dis < Dis) {
+                                Dis = dis; _j = j; ss = t;
+                            }
                         }
+                        else {
+                            if (dis < _WARNING) {
+                                Dis = dis; _j = j; ss = t;
+                            } else
+                            if (t < ss)
+                            {
+                                Dis = dis;
+                                ss = t;
+                                _j = j;
+                            }
+                        }
+
+                        
                     }
                 }
 
