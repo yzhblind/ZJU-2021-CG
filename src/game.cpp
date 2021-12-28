@@ -146,7 +146,18 @@ void Game::processKeyMove(bool w, bool a, bool s, bool d)
     else if (!a && d)
         cam[cameraState].move(cameraState == 0 ? RIGHT : LEVEL_RIGHT, deltaTime);
 }
-
+void Game::processRotate(bool q, bool e)
+{
+    if (cameraState == 0) return;
+    if (q && !e)
+    {
+        cam[cameraState].rotate(-20, 0);
+    }
+    if (e && !q)
+    {
+        cam[cameraState].rotate(20, 0);
+    }
+}
 void Game::processLight(bool i, bool j, bool k, bool l)
 {
     if (i && !k)

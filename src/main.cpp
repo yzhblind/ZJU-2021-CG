@@ -70,6 +70,9 @@ void processInput(GLFWwindow *window)
         keyPressed(window, GLFW_KEY_J),
         keyPressed(window, GLFW_KEY_K),
         keyPressed(window, GLFW_KEY_L));
+    myGame.processRotate(
+        keyPressed(window, GLFW_KEY_Q),
+        keyPressed(window, GLFW_KEY_E));
 }
 void frame_size_callback(GLFWwindow *window, int width, int height)
 {
@@ -77,7 +80,7 @@ void frame_size_callback(GLFWwindow *window, int width, int height)
 }
 void mouse_callback(GLFWwindow *window, double xpos, double ypos)
 {
-    if (mouseInWindow)
+    if (mouseInWindow && !myGame.getCameraState())
     {
         myGame.processMouseMove(xpos - lastX, lastY - ypos);
         lastX = xpos, lastY = ypos;
