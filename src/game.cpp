@@ -362,6 +362,7 @@ void Game::MAP_init()
     setE(18, 1);
     // setE(10, 10);
     setT(6, 6);
+    setT(5, 7);
 
     // need reset Enemy_app   Home_x,Home_y
 }
@@ -388,7 +389,7 @@ void Game::drawScene(const glm::mat4 &projection, const glm::mat4 &view, ShaderP
         if (data2draw.T[i].health > 0)
         {
             modelStack.push();
-            modelStack.rotate(data2draw.T[i].J + 90.0f, vec3(0.0f, 1.0f, 0.0f));
+            modelStack.rotate(-data2draw.T[i].J + 180.0f, vec3(0.0f, 1.0f, 0.0f));
             modelStack.translate(vec3((float)data2draw.T[i].x * 4, 0.0f, (float)data2draw.T[i].y * 4));
             drawModel(projection, view, turret, prgm);
             modelStack.pop();
@@ -530,7 +531,7 @@ void Game::render()
 
     drawScene(projection, view, normalShader);
 
-    // drawLine(projection, view, lineShader);
+    drawLine(projection, view, lineShader);
 
     updateSky(projection, view);
     drawSky();
@@ -538,6 +539,16 @@ void Game::render()
 
 void Game::drawLine(const glm::mat4 &projection, const glm::mat4 &view, ShaderProgram &prgm)
 {
+    lines.clear();
+    for (int i = 0; i < data2draw.T.size(); ++i)
+    {
+        if (data2draw.T[i].fl)
+        {
+            lines.push_back(vec3((float)data2draw.T[i].x * 4, 0.25f, (float)data2draw.T[i].y * 4));
+            lines.push_back(vec3((float)data2draw.T[i].dstx * 4, 0.25f, (float)data2draw.T[i].dsty * 4));
+        }
+    }
+
     prgm.use();
     prgm.setMat4("projection", projection);
     prgm.setMat4("view", view);
@@ -546,7 +557,7 @@ void Game::drawLine(const glm::mat4 &projection, const glm::mat4 &view, ShaderPr
     glBufferData(GL_ARRAY_BUFFER, lines.size() * sizeof(vec3), &lines[0], GL_STATIC_DRAW);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vec3), (void *)0);
-    glDrawArrays(GL_LINES, 0, 2);
+    glDrawArrays(GL_LINES, 0, lines.size());
 }
 
 void Game::processKeyMove(bool w, bool a, bool s, bool d)
