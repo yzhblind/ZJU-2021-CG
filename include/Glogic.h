@@ -2,11 +2,12 @@
 #include <set>
 #include <unordered_set>
 #include <vector>
+#include <cstring>
 #define QIANG 1
 #define TA 2
 #define MAX_TowerHealth 5
 #define MAX_EnemyHealth 5
-#define MAP_SIZE 30
+#define MAP_SIZE 20
 #define eps 1e-7
 #define SPLIT 5
 #define PZ (int)(0.76*SPLIT) //碰撞箱

@@ -29,7 +29,7 @@ public:
     float sensitivity;
     float zoom;
 
-    Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 5.0f), float yaw = -90.0f, float pitch = 0.0f);
+    Camera(glm::vec3 position = glm::vec3(0.0f, 20.0f, 5.0f), float yaw = -90.0f, float pitch = -60.0f);
     void move(CameraDir dir, float t);
     void rotate(float tx, float ty);
     void zoomInOut(float t);
