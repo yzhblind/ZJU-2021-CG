@@ -548,7 +548,8 @@ void Game::drawLine(const glm::mat4 &projection, const glm::mat4 &view, ShaderPr
             lines.push_back(vec3((float)data2draw.T[i].dstx * 4, 0.25f, (float)data2draw.T[i].dsty * 4));
         }
     }
-
+    if (lines.size() == 0)
+        return;
     prgm.use();
     prgm.setMat4("projection", projection);
     prgm.setMat4("view", view);
