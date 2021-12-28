@@ -72,8 +72,8 @@ void Game::initLight()
 
 void Game::MAP_init()
 {
-    setHome(18, 18);
-    setE(1, 1);
+    setHome(1, 1);
+    setE(18, 18);
     // setE(10, 10);
     setT(11, 11);
 
@@ -145,7 +145,6 @@ void rasterize(double x1, double y1, double x2, double y2, int a[][40])
             a[i][j] = 1;
     }
 }
-
 
 _MAP new_M;
 
@@ -364,25 +363,35 @@ void Game::logic()
     // cerr << "START" << endl;
     // for (int i = 1; i <= _M.cnt_Enemy;++i)cerr << _M._E[i].x << ' ' << _M._E[i].y << ' '<< _M._E[i].health<<endl;
 }
-float baseAngle = 0.0f;
+// float baseAngle = 0.0f;
 void Game::drawScene(const glm::mat4 &projection, const glm::mat4 &view, ShaderProgram &prgm)
 {
     modelStack.push();
     modelStack.translate(vec3(-0.3f, -0.32f, 0.0f));
-    baseAngle += deltaTime * 5;
-    modelStack.rotate(baseAngle, vec3(0.0f, 1.0f, 0.0f));
-    modelStack.push();
-    for (int i = 0; i < 10; i += 2)
+    // baseAngle += deltaTime * 5;
+    // modelStack.rotate(baseAngle, vec3(0.0f, 1.0f, 0.0f));
+    // modelStack.push();
+    // for (int i = 0; i < 10; i += 2)
+    // {
+    //     for (int j = 0; j < 20; j += 2)
+    //     {
+    //         modelStack.push();
+    //         modelStack.translate(vec3((float)i * 4, 0.0f, (float)j * 4));
+    //         drawModel(projection, view, turret, prgm);
+    //         modelStack.pop();
+    //     }
+    // }
+    for (int i = 0; i < data2draw.T.size(); ++i)
     {
-        for (int j = 0; j < 20; j += 2)
+        if (data2draw.T[i].health > 0)
         {
             modelStack.push();
-            modelStack.translate(vec3((float)i * 4, 0.0f, (float)j * 4));
-            drawModel(projection, view, turret, prgm);
+            modelStack.rotate(data2draw.T[i].J, vec3(0.0f, 1.0f, 0.0f));
+            modelStack.translate(vec3((float)data2draw.T[i].x * 4, 0.0f, (float)data2draw.T[i].y * 4));
             modelStack.pop();
         }
     }
-    modelStack.pop();
+    // modelStack.pop();
     modelStack.pop();
     for (int i = 10; i < 20; i += 2)
     {
@@ -394,6 +403,21 @@ void Game::drawScene(const glm::mat4 &projection, const glm::mat4 &view, ShaderP
             modelStack.pop();
         }
     }
+
+    // modelStack.push();
+    // modelStack.translate(vec3(12.0f, 4.0f, 12.0f));
+    // drawModel(projection, view, box, prgm);
+    // modelStack.pop();
+
+    modelStack.push();
+    modelStack.scale(vec3(0.5f));
+    // modelStack.mul(rotateMat);
+    en_light1 = true;
+    light1.position = vec3(data2draw.Home_x * 4.0f, 0.0f, data2draw.Home_y * 4.0f);
+    modelStack.translate(light1.position);
+    drawModel(projection, view, sphere, prgm);
+    modelStack.pop();
+
     modelStack.push();
     modelStack.scale(vec3(2.0f));
     modelStack.translate(vec3(0.0f, -3.0f, 0.0f));
@@ -410,19 +434,6 @@ void Game::drawScene(const glm::mat4 &projection, const glm::mat4 &view, ShaderP
             modelStack.pop();
         }
     }
-    modelStack.push();
-    modelStack.translate(vec3(12.0f, 4.0f, 12.0f));
-    drawModel(projection, view, box, prgm);
-    modelStack.pop();
-    modelStack.pop();
-
-    modelStack.push();
-    modelStack.scale(vec3(0.5f));
-    // modelStack.mul(rotateMat);
-    modelStack.translate(vec3(20.0f, 0.0f, 20.0f));
-    en_light1 = true;
-    light1.position = vec3(20.0f, 0.0f, 20.0f);
-    drawModel(projection, view, sphere, prgm);
     modelStack.pop();
 }
 // projection & view is not in use here
@@ -483,14 +494,13 @@ void Game::render()
 
     drawScene(projection, view, normalShader);
 
-    vector<vec3> lines = {};
-    drawLine(lines, projection, view, lineShader);
+    drawLine(projection, view, lineShader);
 
     updateSky(projection, view);
     drawSky();
 }
 
-void Game::drawLine(const std::vector<glm::vec3> &lines, const glm::mat4 &projection, const glm::mat4 &view, ShaderProgram &prgm)
+void Game::drawLine(const glm::mat4 &projection, const glm::mat4 &view, ShaderProgram &prgm)
 {
     prgm.use();
     prgm.setMat4("projection", projection);

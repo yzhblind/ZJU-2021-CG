@@ -61,7 +61,7 @@ public:
     P(int _x = 0, int _y = 0, double _h = 0) :dst(_x), src(_y), del(_h) {}
 };
 
-class UPD {
+struct UPD {
 
     /*
     ty = 1  是墙

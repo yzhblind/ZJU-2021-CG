@@ -103,9 +103,10 @@ private:
 
     unsigned int lineVAO, lineVBO;
     ShaderProgram lineShader;
+    vector<vec3> lines;
 
     void initLine();
-    void drawLine(const std::vector<glm::vec3> &lines, const glm::mat4 &projection, const glm::mat4 &view, ShaderProgram &prgm);
+    void drawLine(const glm::mat4 &projection, const glm::mat4 &view, ShaderProgram &prgm);
 
     Skybox sky;
     ShaderProgram skyShader;
