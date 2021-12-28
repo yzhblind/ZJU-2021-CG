@@ -284,6 +284,7 @@ UPD _MAP::upd()
         double _y = abs(Home_y + 0.5 - _E[i].y);
         if (_x * _x + _y * _y <= 2 + eps) {
             ret.END = 1;
+
         }
     }
 

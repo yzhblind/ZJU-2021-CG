@@ -8,7 +8,7 @@
 #define MAX_TowerHealth 5
 #define MAX_EnemyHealth 5
 #define MAP_SIZE 20
-#define eps 1e-7
+#define eps 1e-3
 #define SPLIT 5
 #define PZ (int)(0.76*SPLIT) //碰撞箱
 #define SAVE_TIME 0.5 //死亡后粒子持续

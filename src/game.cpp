@@ -73,6 +73,10 @@ void Game::initLight()
 void Game::upd()
 {
     data2draw = _M.upd();
+    if (data2draw.END == 1)
+    {
+        state = 1;
+    }
 }
 
 void Game::setHome(int x, int y)
