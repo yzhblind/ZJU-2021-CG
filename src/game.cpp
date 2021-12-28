@@ -382,14 +382,19 @@ void Game::logic()
 // float baseAngle = 0.0f;
 void Game::MAP_init()
 {
-    setHome(4, 4);
+    setHome(10, 10);
+    setWall(11, 9);
+    setWall(11, 10);
+    setWall(11, 11);
+    setWall(10, 11);
+    setWall(9, 11);
     setE(18, 18);
     setE(1, 18);
     setE(18, 1);
     // setE(10, 10);
     setT(6, 6);
     setT(5, 7);
-    setWall(11, 11);
+    
     // need reset Enemy_app   Home_x,Home_y
 }
 
@@ -489,7 +494,7 @@ void Game::drawScene(const glm::mat4 &projection, const glm::mat4 &view, ShaderP
         for (int j = 0; j < 20; ++j)
         {
             modelStack.push();
-            modelStack.translate(vec3((float)i * 4, 0.0f, (float)j * 4));
+            modelStack.translate(vec3((float)i * 4, 0.25f, (float)j * 4));
             if (((i + j) & 1) == 0)
                 drawModel(projection, view, box, prgm);
             else
