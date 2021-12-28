@@ -46,19 +46,31 @@ Sphere::Sphere(GLfloat r, int a, int b, glm::vec3 trans)
 		{
 			Vertex p1, p2, p3, p4;
 			double alpha = pi / a * i, theta = 2.0 * pi / b * j;
-			p1.pos = glm::vec3(r * cos(alpha) * cos(theta), r * sin(alpha), r * cos(alpha) * sin(theta)) + trans;
+			p1.pos = glm::vec3(r * sin(alpha) * cos(theta), r * cos(alpha), r * sin(alpha) * sin(theta)) + trans;
 			alpha = pi / a * i, theta = 2.0 * pi / b * (j + 1);
-			p2.pos = glm::vec3(r * cos(alpha) * cos(theta),r * sin(alpha), r * cos(alpha) * sin(theta) ) + trans;
+			p2.pos = glm::vec3(r * sin(alpha) * cos(theta), r * cos(alpha), r * sin(alpha) * sin(theta)) + trans;
 			alpha = pi / a * (i + 1), theta = 2.0 * pi / b * (j + 1);
-			p3.pos = glm::vec3(r * cos(alpha) * cos(theta), r * sin(alpha), r * cos(alpha) * sin(theta)) + trans;
+			p3.pos = glm::vec3(r * sin(alpha) * cos(theta), r * cos(alpha), r * sin(alpha) * sin(theta)) + trans;
 			alpha = pi / a * (i + 1), theta = 2.0 * pi / b * j;
-			p4.pos = glm::vec3(r * cos(alpha) * cos(theta), r * sin(alpha), r * cos(alpha) * sin(theta)) + trans;
+			p4.pos = glm::vec3(r * sin(alpha) * cos(theta), r * cos(alpha), r * sin(alpha) * sin(theta)) + trans;
 			glm::vec3 normal = (p3.pos - p2.pos) * (p1.pos - p2.pos);
 			p1.normal = p2.normal = p3.normal = p4.normal = normal;
-			push_back(p1);push_back(p2);push_back(p3);push_back(p4);
 			unsigned int a[] = { 0,1,2,0,2,3 };
+			push_back(p1);push_back(p2);push_back(p3);push_back(p4);
 			for (int l = 0;l < 6;l++)
 				push_back(a[l] + point_count);
+		
+			/*else
+			{
+				normal = (p1.pos - p2.pos) * (p3.pos - p2.pos);
+				p1.normal = p2.normal = p3.normal = p4.normal = normal;
+				push_back(p1);push_back(p2);push_back(p3);push_back(p4);
+				for (int l = 0;l < 6;l++)
+					push_back(a[l] + point_count);
+				//for (int l = 5;l >= 0;l--)
+					//push_back(a[l] + point_count);
+
+			}*/
 			point_count += 4;
 		}
 	}
