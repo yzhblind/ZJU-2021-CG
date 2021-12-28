@@ -103,7 +103,7 @@ private:
 
     unsigned int lineVAO, lineVBO;
     ShaderProgram lineShader;
-    vector<vec3> lines;
+    vector<glm::vec3> lines;
 
     void initLine();
     void drawLine(const glm::mat4 &projection, const glm::mat4 &view, ShaderProgram &prgm);
