@@ -263,9 +263,10 @@ void Game::initModel()
     box = new Model("../resources/models/woodbox/Wooden Crate.obj");
     virus = new Model("../resources/models/virusLow/virus.obj");
     box2 = new Model("../resources/models/woodbox2/Cube_obj.obj");
-    vector<Mesh *> t;
-    t.push_back(new Sphere(1.0f));
-    sphere = new Model(t);
+    sphere = new Model("../resources/models/home/HumanPlanet.obj");
+    // vector<Mesh *> t;
+    // t.push_back(new Sphere(1.0f));
+    // sphere = new Model(t);
     // rotateMat = mat4(1.0f);
     // turret = new Model("../resources/models/test/nanosuit.obj");
 }
