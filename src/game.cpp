@@ -431,8 +431,21 @@ void Game::MAP_init()
         for (int j = 0; j < 20; ++j)
             if ((i + j) & 1)
                 setE(i, j);
-    setWall(2, 9);
-    setWall(2, 11);
+    setWall(11, 9);
+    setWall(11, 11);
+    setWall(10, 9);
+    setWall(10, 11);
+    setWall(9, 9);
+    setWall(9, 11);
+    setWall(9, 8);
+    setWall(9, 12);
+
+    setWall(9, 6);
+    setWall(9, 14);
+    setWall(9, 5);
+    setWall(9, 15);
+    setWall(9, 4);
+    setWall(9, 16);
     // setWall(0, 1);
     /* setHome(10, 10);
      setWall(11, 5);

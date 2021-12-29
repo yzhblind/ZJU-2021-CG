@@ -17,7 +17,7 @@
 #define _END 0.2  //游戏结束判断到家的距离
 #define _WARNING 7
 #define ER 0.2//怪物半径
-#define PZ_Enemy 0  //怪物间碰撞检测
+#define PZ_Enemy 1  //怪物间碰撞检测
 using namespace std;
 
 class _Tower;
