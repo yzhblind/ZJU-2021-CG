@@ -9,14 +9,15 @@
 #define MAX_EnemyHealth 4.9
 #define MAP_SIZE 20
 #define eps 1e-7
-#define SPLIT 5
+#define SPLIT 5  //将（20*4）*（20*4）的网格再细分为400*400的
 #define PZ (int)(0.8*SPLIT) //碰撞箱
 #define SAVE_TIME 0.5 //死亡后粒子持续
 #define VJ 90  //塔转速
 #define CD_default 5  //出怪
-#define _END 0.2
+#define _END 0.2  //游戏结束判断到家的距离
 #define _WARNING 7
 #define ER 0.2//怪物半径
+#define PZ_Enemy 0  //怪物间碰撞检测
 using namespace std;
 
 class _Tower;

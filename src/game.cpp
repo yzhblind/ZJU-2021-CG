@@ -248,8 +248,8 @@ void Game::logic()
                 continue;
             }
 
-            if(_FL)new_M.new_Enemy(sw.x, sw.y, sw.health, sw.flx, sw.fly),res.first=sw.x,res.second=sw.y;
-            else new_M.new_Enemy(res.first, res.second, _M._E[i].health, _M._E[i].flx, _M._E[i].fly);
+            if(_FL && PZ_Enemy)new_M.new_Enemy(sw.x, sw.y, sw.health, sw.flx, sw.fly),res.first=sw.x,res.second=sw.y;else 
+                new_M.new_Enemy(res.first, res.second, _M._E[i].health, _M._E[i].flx, _M._E[i].fly);
             if (sqrt((res.first - _M._E[i].x) * (res.first - _M._E[i].x) + (res.second - _M._E[i].y) * (res.second - _M._E[i].y)) >= deltaTime - eps)
             {
             }
@@ -422,10 +422,11 @@ void Game::logic()
 void Game::MAP_init()
 {
     setHome(0, 0);
-    for (int i = 1;i < 9;++i)
-        for (int j = 0;j < 20; ++j)setT(i, j);
-    for (int i = 12;i < 20; ++i)
-        for (int j = 0;j < 20; ++j)setE(i, j);
+    for (int i = 1;i < 7;++i)
+        for (int j = 0;j < 20; ++j)if (i == 1 && j == 1)setWall(i, j);else setT(i, j);
+    for (int i = 9;i < 20; ++i)
+        for (int j = 0;j < 20; ++j)if ((i + j) & 1)setE(i, j);
+    setWall(0, 1);
    /* setHome(10, 10);
     setWall(11, 5);
     setWall(11, 6);
