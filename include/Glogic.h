@@ -6,7 +6,7 @@
 #define QIANG 1
 #define TA 2
 #define MAX_TowerHealth 5
-#define MAX_EnemyHealth 4.9
+#define MAX_EnemyHealth 3.5
 #define MAP_SIZE 20
 #define eps 1e-7
 #define SPLIT 5  //将（20*4）*（20*4）的网格再细分为400*400的
