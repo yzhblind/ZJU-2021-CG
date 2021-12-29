@@ -421,7 +421,12 @@ void Game::logic()
 // float baseAngle = 0.0f;
 void Game::MAP_init()
 {
-    setHome(10, 10);
+    setHome(0, 0);
+    for (int i = 1;i < 9;++i)
+        for (int j = 0;j < 20; ++j)setT(i, j);
+    for (int i = 12;i < 20; ++i)
+        for (int j = 0;j < 20; ++j)setE(i, j);
+   /* setHome(10, 10);
     setWall(11, 5);
     setWall(11, 6);
     setWall(11, 7);
@@ -446,7 +451,7 @@ void Game::MAP_init()
     // setT(7, 5);
     setT(18, 16);
     setT(10, 9);
-
+    */
     // need reset Enemy_app   Home_x,Home_y
 }
 
