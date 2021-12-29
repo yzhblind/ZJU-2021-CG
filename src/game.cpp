@@ -145,7 +145,7 @@ void Game::edit()
 {
     // switchState();
     char op;
-    std::cout << "please input opeation: wall: w, tower: t, entry: e "<<std::endl;
+    std::cout << "please input opeation: wall: w, tower: t, entry: e " << std::endl;
     std::cin >> op;
     if (op == 'w')
     {
@@ -175,7 +175,6 @@ void Game::logic()
 {
     if (deltaTime > 0.05)
         deltaTime = 0.05;
-
 
     new_M.cnt_Enemy = new_M.cnt_Tower = 0;
 
@@ -236,11 +235,11 @@ void Game::logic()
             _Enemy sw = _M._E[i];
             pair<double, double> res = _M.find(i, deltaTime);
 
-            
-
             int _FL = 0;
-            for (int j = 1; j <= _M.cnt_Enemy; ++j) if (i != j)if (sqrt((res.first - _M._E[j].x) * (res.first - _M._E[j].x)
-                + (res.second - _M._E[j].y) * (res.second - _M._E[j].y)) < 2 * ER) _FL = 1;
+            for (int j = 1; j <= _M.cnt_Enemy; ++j)
+                if (i != j)
+                    if (sqrt((res.first - _M._E[j].x) * (res.first - _M._E[j].x) + (res.second - _M._E[j].y) * (res.second - _M._E[j].y)) < 2 * ER)
+                        _FL = 1;
 
             if (res.first < -0.5)
             {
@@ -248,7 +247,9 @@ void Game::logic()
                 continue;
             }
 
-            if(_FL && PZ_Enemy)new_M.new_Enemy(sw.x, sw.y, sw.health, sw.flx, sw.fly),res.first=sw.x,res.second=sw.y;else 
+            if (_FL && PZ_Enemy)
+                new_M.new_Enemy(sw.x, sw.y, sw.health, sw.flx, sw.fly), res.first = sw.x, res.second = sw.y;
+            else
                 new_M.new_Enemy(res.first, res.second, _M._E[i].health, _M._E[i].flx, _M._E[i].fly);
             if (sqrt((res.first - _M._E[i].x) * (res.first - _M._E[i].x) + (res.second - _M._E[i].y) * (res.second - _M._E[i].y)) >= deltaTime - eps)
             {
@@ -421,38 +422,44 @@ void Game::logic()
 // float baseAngle = 0.0f;
 void Game::MAP_init()
 {
-    setHome(0, 0);
-    for (int i = 1;i < 7;++i)
-        for (int j = 0;j < 20; ++j)if (i == 1 && j == 1)setWall(i, j);else setT(i, j);
-    for (int i = 9;i < 20; ++i)
-        for (int j = 0;j < 20; ++j)if ((i + j) & 1)setE(i, j);
-    setWall(0, 1);
-   /* setHome(10, 10);
-    setWall(11, 5);
-    setWall(11, 6);
-    setWall(11, 7);
-    setWall(11, 8);
-    setWall(11, 9);
-    setWall(11, 10);
-    setWall(11, 11);
-    setWall(10, 11);
-    setWall(9, 11);
-    setWall(9, 10);
-    setWall(9, 9);
-    setWall(9, 8);
-    setWall(9, 7);
-    setWall(9, 6);
-    setE(18, 18);
-    setE(1, 18);
-    setE(18, 1);
-    // setE(10, 10);
-    setT(6, 6);
-    // setT(5, 7);
-    setT(4, 8);
-    // setT(7, 5);
-    setT(18, 16);
-    setT(10, 9);
-    */
+    setHome(0, 10);
+    for (int i = 1; i < 7; ++i)
+        for (int j = 0; j < 20; ++j)
+            if (((i + j) & 1) == 0)
+                setT(i, j);
+    for (int i = 11; i < 20; ++i)
+        for (int j = 0; j < 20; ++j)
+            if ((i + j) & 1)
+                setE(i, j);
+    setWall(2, 9);
+    setWall(2, 11);
+    // setWall(0, 1);
+    /* setHome(10, 10);
+     setWall(11, 5);
+     setWall(11, 6);
+     setWall(11, 7);
+     setWall(11, 8);
+     setWall(11, 9);
+     setWall(11, 10);
+     setWall(11, 11);
+     setWall(10, 11);
+     setWall(9, 11);
+     setWall(9, 10);
+     setWall(9, 9);
+     setWall(9, 8);
+     setWall(9, 7);
+     setWall(9, 6);
+     setE(18, 18);
+     setE(1, 18);
+     setE(18, 1);
+     // setE(10, 10);
+     setT(6, 6);
+     // setT(5, 7);
+     setT(4, 8);
+     // setT(7, 5);
+     setT(18, 16);
+     setT(10, 9);
+     */
     // need reset Enemy_app   Home_x,Home_y
 }
 
@@ -580,7 +587,7 @@ void Game::shadowGen(const glm::mat4 &projection, const glm::mat4 &view)
         else
         {
             orthoWidth = glm::clamp(20.0f + 400.0f * (c.front.y + 0.8f) + 8.0f * (c.pos.y - 10.0f), 20.0f, 60.0f);
-            orthoHeight = glm::clamp(10.0f + (orthoHeight - 10.0f) * 10.0f * (c.front.y + 0.8f) + (orthoHeight - 10.0f) / 5.0f * (c.pos.y - 10.0f), 10.0f, orthoHeight);
+            orthoHeight = glm::clamp(10.0f + (orthoHeight - 10.0f) * 10.0f * (c.front.y + 0.8f) + (orthoHeight - 10.0f) / 5.0f * (c.pos.y - 5.0f), 10.0f, orthoHeight);
         }
     }
 
