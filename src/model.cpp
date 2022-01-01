@@ -86,7 +86,7 @@ void Model::loadMesh(aiMesh *mesh, Mesh &myMesh, aiMaterial *material)
     loadTexFromMat(material, myMesh, aiTextureType_DIFFUSE, DIFFUSE_T);
     loadTexFromMat(material, myMesh, aiTextureType_SPECULAR, SPECULAR_T);
     loadTexFromMat(material, myMesh, aiTextureType_HEIGHT, NORMAL_T);
-    loadTexFromMat(material, myMesh, aiTextureType_AMBIENT, HEIGHT_T);
+    // loadTexFromMat(material, myMesh, aiTextureType_AMBIENT, HEIGHT_T);
     
 }
 

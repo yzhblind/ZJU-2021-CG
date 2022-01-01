@@ -71,11 +71,11 @@ void Mesh::setTexture(ShaderProgram &prgm)
             name = "normal_texture";
             normalCnt++;
             break;
-        case HEIGHT_T:
-            // name = "height_texture" + to_string(heightCnt++);
-            name = "height_texture";
-            heightCnt++;
-            break;
+        // case HEIGHT_T:
+        //     // name = "height_texture" + to_string(heightCnt++);
+        //     name = "height_texture";
+        //     heightCnt++;
+        //     break;
         }
         prgm.setInt(name, i + 1);
         glBindTexture(GL_TEXTURE_2D, textures[i].id);

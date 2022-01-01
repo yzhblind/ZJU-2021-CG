@@ -429,7 +429,7 @@ void Game::MAP_init()
                 setT(i, j);
     for (int i = 11; i < 20; ++i)
         for (int j = 0; j < 20; ++j)
-            if ((i + j) & 1)
+            if ((j)&1)
                 setE(i, j);
     setWall(11, 9);
     setWall(11, 11);
@@ -473,7 +473,6 @@ void Game::MAP_init()
      setT(18, 16);
      setT(10, 9);
      */
-    // need reset Enemy_app   Home_x,Home_y
 }
 
 void Game::drawScene(const glm::mat4 &projection, const glm::mat4 &view, ShaderProgram &prgm)
@@ -600,7 +599,7 @@ void Game::shadowGen(const glm::mat4 &projection, const glm::mat4 &view)
         else
         {
             orthoWidth = glm::clamp(20.0f + 400.0f * (c.front.y + 0.8f) + 8.0f * (c.pos.y - 10.0f), 20.0f, 60.0f);
-            orthoHeight = glm::clamp(10.0f + (orthoHeight - 10.0f) * 10.0f * (c.front.y + 0.8f) + (orthoHeight - 10.0f) / 5.0f * (c.pos.y - 5.0f), 10.0f, orthoHeight);
+            orthoHeight = glm::clamp(10.0f + std::max((orthoHeight - 10.0f) * 10.0f * (c.front.y + 0.8f), 0.0f) + std::max((orthoHeight - 10.0f) / 5.0f * (c.pos.y - 10.0f), 0.0f), 10.0f, orthoHeight);
         }
     }
 
